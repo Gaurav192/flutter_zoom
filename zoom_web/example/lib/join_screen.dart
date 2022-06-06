@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:html' hide Platform;
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:zoom_web/zoom_web.dart';
-import 'package:crypto/crypto.dart';
 
 //TODO change with your ApiKey and ApiSecret ,You can generate them according to this guide:
 //https://marketplace.zoom.us/docs/guides/build/jwt-app
@@ -103,21 +103,30 @@ class _JoinWidgetState extends State<JoinWidget> {
 
   String generateSignature(
       String apiKey, String apiSecret, String meetingNumber, int role) {
+    final header = utf8.encode(json.encode({"alg": "HS256", "typ": "JWT"}));
     // Prevent time sync issue between client signature generation and zoom
-    final timestamp = DateTime.now().millisecondsSinceEpoch - 30000;
-    var str = '${apiKey}${meetingNumber}${timestamp}${role}';
-    var bytes = utf8.encode(str);
-    final msg = base64.encode(bytes);
-
+    final timestamp = (DateTime.now().millisecondsSinceEpoch - 30000) ~/ 1000;
+    final exp = timestamp + Duration(days: 1).inSeconds;
+    var payload = utf8.encode(jsonEncode({
+      'sdkKey': apiKey,
+      'mn': meetingNumber,
+      'role': role,
+      'iat': timestamp,
+      'exp': exp,
+      'appKey': apiKey,
+      'tokenExp': exp
+    }));
+    final input = '${_base64url(header)}.${_base64url(payload)}';
+    final data = ascii.encode(input);
     final key = utf8.encode(apiSecret);
     final hmacSha256 = Hmac(sha256, key); // HMAC-SHA256
-    final digest = hmacSha256.convert(utf8.encode(msg));
-    final hash = base64.encode(digest.bytes);
+    final digest = hmacSha256.convert(data);
+    final hash = _base64url(digest.bytes);
+    return "$input.$hash";
+  }
 
-    str = '${apiKey}.${meetingNumber}.${timestamp}.${role}.${hash}';
-    bytes = utf8.encode(str);
-    final signature = base64.encode(bytes);
-    return signature.replaceAll(new RegExp("="), "");
+  String _base64url(List<int> bytes) {
+    return base64Url.encode(bytes).replaceAll('=', '');
   }
 
   joinMeeting(BuildContext context) {
