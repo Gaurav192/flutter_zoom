@@ -45,13 +45,13 @@ class InitParams {
 @anonymous // needed along with factory constructor
 class JoinParams {
   external factory JoinParams(
-      {meetingNumber, userName, signature, apiKey, passWord, success, error});
+      {meetingNumber, userName, signature, sdkKey, passWord, success, error});
 }
 
 @JS()
 @anonymous // needed along with factory constructor
 class SignatureParams {
-  external factory SignatureParams({meetingNumber, apiKey, apiSecret, role});
+  external factory SignatureParams({meetingNumber, sdkKey, apiSecret, role});
 }
 
 @JS()

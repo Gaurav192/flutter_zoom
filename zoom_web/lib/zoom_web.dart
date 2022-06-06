@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:js';
-
 import 'package:zoom_platform_interface/zoom_platform_interface.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:zoom_web/stringify_js.dart';
@@ -30,7 +29,6 @@ export 'package:zoom_platform_interface/zoom_platform_interface.dart'
 //     return thing;
 //   }
 // }
-
 class ZoomWeb extends ZoomPlatform {
   StreamController<dynamic>? streamController;
   static void registerWith(Registrar registrar) {
@@ -43,7 +41,6 @@ class ZoomWeb extends ZoomPlatform {
     var sus = ZoomMtg.checkSystemRequirements();
     var susmap = convertToDart(sus);
     print(susmap);
-
     ZoomMtg.i18n.load(options.language);
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareWebSDK();
@@ -102,7 +99,7 @@ class ZoomWeb extends ZoomPlatform {
         userName:
             options.displayName != null ? options.displayName : options.userId,
         signature: options.jwtSignature!,
-        apiKey: options.jwtAPIKey!,
+        sdkKey: options.jwtAPIKey!,
         passWord: options.meetingPassword,
         success: allowInterop((var res) {
           completer.complete(true);
