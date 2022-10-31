@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:zoom_platform_interface/zoom_options.dart';
 import 'package:zoom_platform_interface/zoom_platform_interface.dart';
 
 class MethodChannelZoom extends ZoomPlatform {

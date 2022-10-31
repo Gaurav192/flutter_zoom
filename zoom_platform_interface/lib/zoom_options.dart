@@ -3,6 +3,7 @@ class ZoomOptions {
   String? jwtToken;
   String? appKey;
   String? appSecret;
+  String leaveUrl; // --for web
   String? language; //--for web
   bool? showMeetingHeader; //--for web
   bool? disableInvite; //--for web
@@ -36,6 +37,7 @@ class ZoomOptions {
       this.jwtToken,
       this.appKey,
       this.appSecret,
+      this.leaveUrl = '/index.html',
       this.language = "en-US",
       this.showMeetingHeader = true,
       this.disableInvite = false,

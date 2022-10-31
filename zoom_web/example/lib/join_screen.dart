@@ -20,7 +20,7 @@ class JoinWidget extends StatefulWidget {
 class _JoinWidgetState extends State<JoinWidget> {
   TextEditingController meetingIdController = TextEditingController();
   TextEditingController meetingPasswordController = TextEditingController();
-  Timer timer;
+  Timer? timer;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _JoinWidgetState extends State<JoinWidget> {
                 child: Builder(
                   builder: (context) {
                     // The basic Material Design action button.
-                    return RaisedButton(
+                    return ElevatedButton(
                       // If onPressed is null, the button is disabled
                       // this is my goto temporary callback.
                       onPressed: () => joinMeeting(context),
@@ -78,7 +78,7 @@ class _JoinWidgetState extends State<JoinWidget> {
                 child: Builder(
                   builder: (context) {
                     // The basic Material Design action button.
-                    return RaisedButton(
+                    return ElevatedButton(
                       // If onPressed is null, the button is disabled
                       // this is my goto temporary callback.
                       onPressed: () => startMeeting(context),
@@ -198,7 +198,7 @@ class _JoinWidgetState extends State<JoinWidget> {
         // });
 
         var zr = window.document.getElementById("zmmtg-root");
-        querySelector('body').append(zr);
+        querySelector('body')?.append(zr!);
         //The signature should be generated on your server
         final signature = generateSignature(
             jwtAPIKey, jwtAPISecret, meetingIdController.text, 0);

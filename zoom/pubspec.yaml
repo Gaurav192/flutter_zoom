@@ -5,13 +5,18 @@ repository: https://github.com/driftboat/flutter_zoom/tree/main/zoom
 publish_to: "none"
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.20.0"
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  zoom_platform_interface: ^1.0.3+3 
+  # zoom_platform_interface: ^1.0.3+3
+  zoom_platform_interface:
+    git:
+      url: https://github.com/Gaurav192/flutter_zoom
+      ref: sdkKey_web
+      path: zoom_platform_interface
   zoom_web:
     git:
       url: https://github.com/Gaurav192/flutter_zoom
@@ -20,10 +25,16 @@ dependencies:
 
     # path: "../zoom_web"
 
+dependency_overrides:
+  zoom_platform_interface:
+    path: "../zoom_platform_interface"
+  zoom_web:
+    path: "../zoom_web"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
- 
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -41,7 +52,7 @@ flutter:
       ios:
         pluginClass: ZoomPlugin
       web:
-         default_package: zoom_web
+        default_package: zoom_web
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

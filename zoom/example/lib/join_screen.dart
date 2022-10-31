@@ -49,7 +49,7 @@ class _JoinWidgetState extends State<JoinWidget> {
                 child: Builder(
                   builder: (context) {
                     // The basic Material Design action button.
-                    return RaisedButton(
+                    return ElevatedButton(
                       // If onPressed is null, the button is disabled
                       // this is my goto temporary callback.
                       onPressed: () => joinMeeting(context),
@@ -63,7 +63,7 @@ class _JoinWidgetState extends State<JoinWidget> {
                 child: Builder(
                   builder: (context) {
                     // The basic Material Design action button.
-                    return RaisedButton(
+                    return ElevatedButton(
                       // If onPressed is null, the button is disabled
                       // this is my goto temporary callback.
                       onPressed: () => startMeeting(context),
