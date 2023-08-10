@@ -88,12 +88,12 @@ public class ZoomPlugin implements FlutterPlugin, MethodCallHandler,ActivityAwar
         if(options.containsKey("jwtToken")){
             initParams.jwtToken = options.get("jwtToken");
         }
-        if(options.containsKey("appKey")){
-            initParams.appKey = options.get("appKey");
-        }
-        if(options.containsKey("appSecret")){
-            initParams.appSecret = options.get("appSecret");
-        }
+//        if(options.containsKey("appKey")){
+//            initParams.appKey = options.get("appKey");
+//        }
+//        if(options.containsKey("appSecret")){
+//            initParams.appSecret = options.get("appSecret");
+//        }
         zoomSDK.initialize(
                 context,
                 new ZoomSDKInitializeListener() {
@@ -181,7 +181,7 @@ public class ZoomPlugin implements FlutterPlugin, MethodCallHandler,ActivityAwar
         
         StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
 
-        params.userId = options.get("userId");
+//        params.userId = options.get("userId");
         params.displayName = options.get("displayName");
         params.meetingNo = options.get("meetingId");
         params.userType = MeetingService.USER_TYPE_API_USER;
@@ -225,6 +225,11 @@ public class ZoomPlugin implements FlutterPlugin, MethodCallHandler,ActivityAwar
 
     @Override
     public void onZoomAuthIdentityExpired() {
+
+    }
+
+    @Override
+    public void onNotificationServiceStatus(SDKNotificationServiceStatus sdkNotificationServiceStatus) {
 
     }
 
