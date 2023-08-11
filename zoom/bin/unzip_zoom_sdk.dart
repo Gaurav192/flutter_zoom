@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:convert';
+
 //import 'package:dio/dio.dart';
 
 void main(List<String> args) async {
@@ -66,28 +67,32 @@ void main(List<String> args) async {
 }
 
 Future<void> checkAndDownloadSDK(String location) async {
-  var iosSDKFile = location +
-      '/ios/MobileRTC.xcframework/ios-arm64_armv7/MobileRTC.framework/MobileRTC';
-  bool exists = await File(iosSDKFile).exists();
+  if (Platform.isMacOS) {
+    var iosSDKFile = location +
+        '/ios/MobileRTC.xcframework/ios-arm64/MobileRTC.framework/MobileRTC';
+    bool exists = await File(iosSDKFile).exists();
 
-  if (!exists) {
-    await downloadFile(
-        Uri.parse('https://www.dropbox.com/s/8ug0dzuvim2mgsp/MobileRTC?dl=1'),
-        iosSDKFile);
-  }
+    if (!exists) {
+      await downloadFile(
+          Uri.parse(
+              'https://www.dropbox.com/scl/fi/1iow67tdvlhasqf1j6ny6/MobileRTC?rlkey=z7rybxmf7riwmgkzf3v9mc8xp&dl=1'),
+          iosSDKFile);
+    }
 
-  var iosSimulateSDKFile = location +
-      '/ios/MobileRTC.xcframework/ios-x86_64-simulator/MobileRTC.framework/MobileRTC';
-  exists = await File(iosSimulateSDKFile).exists();
+    var iosSimulateSDKFile = location +
+        '/ios/MobileRTC.xcframework/ios-arm64_x86_64-simulator/MobileRTC.framework/MobileRTC';
+    exists = await File(iosSimulateSDKFile).exists();
 
-  if (!exists) {
-    await downloadFile(
-        Uri.parse('https://www.dropbox.com/s/6nhkuegxbhru5sa/MobileRTC?dl=1'),
-        iosSimulateSDKFile);
+    if (!exists) {
+      await downloadFile(
+          Uri.parse(
+              'https://www.dropbox.com/scl/fi/svddng7lwu9ly8tdvtjk1/MobileRTC?rlkey=hq3y43e7zbq7w6tb65ez7xxd4&dl=1'),
+          iosSimulateSDKFile);
+    }
   }
 
   var androidCommonLibFile = location + '/android/libs/commonlib.aar';
-  exists = await File(androidCommonLibFile).exists();
+  bool exists = await File(androidCommonLibFile).exists();
   if (!exists) {
     await downloadFile(
         Uri.parse(
