@@ -83,12 +83,12 @@ public class SwiftZoomPlugin: NSObject, FlutterPlugin,FlutterStreamHandler , Mob
         if let jwtToken = arguments["jwtToken"] {
             auth?.jwtToken = jwtToken
         }
-        if let appKey = arguments["appKey"] {
-            auth?.clientKey = appKey
-        }
-        if let appSecret = arguments["appSecret"] {
-            auth?.clientSecret = appSecret
-        }
+        // if let appKey = arguments["appKey"] {
+        //     auth?.clientKey = appKey
+        // }
+        // if let appSecret = arguments["appSecret"] {
+        //     auth?.clientSecret = appSecret
+        // }
         
         auth?.sdkAuth()
     }
@@ -222,7 +222,7 @@ public class SwiftZoomPlugin: NSObject, FlutterPlugin,FlutterStreamHandler , Mob
             user.meetingNumber = arguments["meetingId"]!!
             user.userName = arguments["displayName"]!!
            // user.userToken = arguments["zoomToken"]!!
-            user.userID = arguments["userId"]!!
+            // user.userID = arguments["userId"]!!
             user.zak = arguments["zoomAccessToken"]!!
 
             let param: MobileRTCMeetingStartParam = user
