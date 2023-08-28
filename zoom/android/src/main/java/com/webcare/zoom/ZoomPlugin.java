@@ -20,6 +20,7 @@ import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.JoinMeetingParams;
 import us.zoom.sdk.MeetingService;
 import us.zoom.sdk.MeetingStatus;
+import us.zoom.sdk.SDKNotificationServiceError;
 import us.zoom.sdk.StartMeetingOptions;
 import us.zoom.sdk.StartMeetingParamsWithoutLogin;
 import us.zoom.sdk.ZoomError;
@@ -88,12 +89,12 @@ public class ZoomPlugin implements FlutterPlugin, MethodCallHandler,ActivityAwar
         if(options.containsKey("jwtToken")){
             initParams.jwtToken = options.get("jwtToken");
         }
-       if(options.containsKey("appKey")){
-           initParams.appKey = options.get("appKey");
-       }
-       if(options.containsKey("appSecret")){
-           initParams.appSecret = options.get("appSecret");
-       }
+    //    if(options.containsKey("appKey")){
+    //        initParams.appKey = options.get("appKey");
+    //    }
+    //    if(options.containsKey("appSecret")){
+    //        initParams.appSecret = options.get("appSecret");
+    //    }
         zoomSDK.initialize(
                 context,
                 new ZoomSDKInitializeListener() {
@@ -230,6 +231,11 @@ public class ZoomPlugin implements FlutterPlugin, MethodCallHandler,ActivityAwar
 
     @Override
     public void onNotificationServiceStatus(SDKNotificationServiceStatus sdkNotificationServiceStatus) {
+
+    }
+
+    @Override
+    public void onNotificationServiceStatus(SDKNotificationServiceStatus sdkNotificationServiceStatus, SDKNotificationServiceError sdkNotificationServiceError) {
 
     }
 
