@@ -102,8 +102,8 @@ class ZoomMeetingOptions {
   String noDisconnectAudio;
   String noAudio;
   int? meetingViewOptions;
-  String? jwtAPIKey; //--for web
-  String? jwtSignature; //--for web
+  String? sdkKey; //--for web
+  String? signature; //--for web
 
   ZoomMeetingOptions({
     required this.userId,
@@ -119,7 +119,7 @@ class ZoomMeetingOptions {
     required this.noDisconnectAudio,
     required this.noAudio,
     this.meetingViewOptions,
-    this.jwtAPIKey,
-    this.jwtSignature,
+    this.sdkKey,
+    this.signature,
   });
 }

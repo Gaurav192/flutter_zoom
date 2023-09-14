@@ -105,7 +105,7 @@ class _JoinWidgetState extends State<JoinWidget> {
       String apiKey, String apiSecret, String meetingNumber, int role) {
     final header = utf8.encode(json.encode({"alg": "HS256", "typ": "JWT"}));
     // Prevent time sync issue between client signature generation and zoom
-    final timestamp = (DateTime.now().millisecondsSinceEpoch - 30000) ~/ 1000;
+    final timestamp = ((DateTime.now().millisecondsSinceEpoch) ~/ 1000) - 30;
     final exp = timestamp + Duration(days: 1).inSeconds;
     var payload = utf8.encode(jsonEncode({
       'sdkKey': apiKey,
@@ -135,7 +135,7 @@ class _JoinWidgetState extends State<JoinWidget> {
         //https://marketplace.zoom.us/docs/sdk/native-sdks/auth
         //https://jwt.io/
         //--todo from server
-        jwtToken: "your jwtToken",
+        // jwtToken: "your jwtToken",
         language: "en-US", // Optional
         showMeetingHeader: true, // Optional
         disableInvite: false, // Optional
@@ -202,8 +202,8 @@ class _JoinWidgetState extends State<JoinWidget> {
         //The signature should be generated on your server
         final signature = generateSignature(
             jwtAPIKey, jwtAPISecret, meetingIdController.text, 0);
-        meetingOptions.jwtAPIKey = jwtAPIKey;
-        meetingOptions.jwtSignature = signature;
+        meetingOptions.sdkKey = jwtAPIKey;
+        meetingOptions.signature = signature;
         zoom.joinMeeting(meetingOptions).then((joinMeetingResult) {
           // timer = Timer.periodic(new Duration(seconds: 2), (timer) {
           //   zoom.meetingStatus(meetingOptions.meetingId).then((status) {

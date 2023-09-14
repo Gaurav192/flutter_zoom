@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:js';
+import 'dart:js' as js;
 import 'package:zoom_platform_interface/zoom_platform_interface.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:zoom_web/stringify_js.dart';
 import 'package:zoom_web/zoom_js.dart';
+
 import 'js_interop.dart';
 export 'package:zoom_platform_interface/zoom_platform_interface.dart'
     show ZoomOptions, ZoomMeetingOptions;
@@ -35,8 +35,17 @@ class ZoomWeb extends ZoomPlatform {
     ZoomPlatform.instance = ZoomWeb();
   }
 
+  static const _zoomSdkVersion = '2.16.0';
+
+  static String get _selectZoomSdkVersion =>
+      js.context.hasProperty('zoomSdkVersion')
+          ? js.context['zoomSdkVersion']
+          : _zoomSdkVersion;
+
   @override
   Future<List> initZoom(ZoomOptions options) async {
+    ZoomMtg.setZoomJSLib(
+        'https://source.zoom.us/$_selectZoomSdkVersion/lib', '/av');
     final Completer<List> completer = Completer();
     var sus = ZoomMtg.checkSystemRequirements();
     var susmap = convertToDart(sus);
@@ -72,10 +81,10 @@ class ZoomWeb extends ZoomPlatform {
         disableVoIP: options.disableVOIP,
         disableReport: options.disableReport,
         meetingInfo: options.meetingInfo,
-        success: allowInterop((var res) {
+        success: js.allowInterop((var res) {
           completer.complete([0, 0]);
         }),
-        error: allowInterop((var res) {
+        error: js.allowInterop((var res) {
           completer.complete([1, 0]);
         })));
     return completer.future;
@@ -95,17 +104,19 @@ class ZoomWeb extends ZoomPlatform {
     //     apiSecret: "ApiKey",
     //     role: 0));
     ZoomMtg.join(JoinParams(
-        meetingNumber: options.meetingId,
+        meetingNumber: (options.meetingId),
         userName:
             options.displayName != null ? options.displayName : options.userId,
-        signature: options.jwtSignature!,
-        sdkKey: options.jwtAPIKey!,
+        signature: options.signature!,
+        sdkKey: options.sdkKey!,
         passWord: options.meetingPassword,
-        success: allowInterop((var res) {
-          completer.complete(true);
+        success: js.allowInterop((var res) {
+          if (!completer.isCompleted) completer.complete(true);
         }),
-        error: allowInterop((var res) {
-          completer.complete(false);
+        error: js.allowInterop((var res) {
+          if (!completer.isCompleted) {
+            completer.complete(false);
+          }
         })));
     return completer.future;
   }
@@ -117,10 +128,11 @@ class ZoomWeb extends ZoomPlatform {
 
   @override
   Stream<dynamic> onMeetingStatus() {
-    final Completer<bool> completer = Completer();
+    // final Completer<bool> completer = Completer();
     streamController?.close();
     streamController = StreamController<dynamic>();
-    ZoomMtg.inMeetingServiceListener('onMeetingStatus', allowInterop((status) {
+    ZoomMtg.inMeetingServiceListener('onMeetingStatus',
+        js.allowInterop((status) {
       //print(stringify(MeetingStatus status));
       var r = List<String>.filled(2, "");
       // 1(connecting), 2(connected), 3(disconnected), 4(reconnecting)

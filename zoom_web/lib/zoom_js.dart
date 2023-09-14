@@ -1,8 +1,6 @@
 @JS()
 library zoom;
 
-import 'dart:js';
-
 import 'package:js/js.dart';
 
 @JS()
@@ -16,6 +14,7 @@ class InitParams {
       disableRecord,
       disableJoinAudio,
       audioPanelAlwaysOpen,
+      showPureSharingContent,
       isSupportAV,
       isSupportChat,
       isSupportQA,
@@ -67,7 +66,6 @@ class ZoomMtg {
   external static final i18n;
   external static void preLoadWasm();
   external static void prepareWebSDK();
-  external static void prepareJssdk();
   external static void init(InitParams initParams);
   external static void join(JoinParams joinParams);
   external static String generateSignature(SignatureParams signatureParams);
