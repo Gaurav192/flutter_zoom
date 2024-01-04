@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:js' as js;
+import 'package:flutter/foundation.dart';
 import 'package:zoom_platform_interface/zoom_platform_interface.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:zoom_web/zoom_js.dart';
@@ -35,7 +36,7 @@ class ZoomWeb extends ZoomPlatform {
     ZoomPlatform.instance = ZoomWeb();
   }
 
-  static const _zoomSdkVersion = '2.16.0';
+  static const _zoomSdkVersion = '3.1.0';
 
   static String get _selectZoomSdkVersion =>
       js.context.hasProperty('zoomSdkVersion')
@@ -47,9 +48,9 @@ class ZoomWeb extends ZoomPlatform {
     ZoomMtg.setZoomJSLib(
         'https://source.zoom.us/$_selectZoomSdkVersion/lib', '/av');
     final Completer<List> completer = Completer();
-    var sus = ZoomMtg.checkSystemRequirements();
+    var sus = ZoomMtg.checkFeatureRequirements();
     var susmap = convertToDart(sus);
-    print(susmap);
+    debugPrint(susmap.toString());
     ZoomMtg.i18n.load(options.language);
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareWebSDK();
@@ -68,7 +69,7 @@ class ZoomWeb extends ZoomPlatform {
         isSupportPolling: options.isSupportPolling,
         isSupportBreakout: options.isSupportBreakout,
         screenShare: options.screenShare,
-        rwcBackup: options.rwcBackup,
+        // rwcBackup: options.rwcBackup,
         videoDrag: options.videoDrag,
         sharingMode: options.sharingMode,
         videoHeader: options.videoHeader,

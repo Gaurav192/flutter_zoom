@@ -22,7 +22,7 @@ class InitParams {
       isSupportPolling,
       isSupportBreakout,
       screenShare,
-      rwcBackup,
+      // rwcBackup,
       videoDrag,
       sharingMode,
       videoHeader,
@@ -69,7 +69,7 @@ class ZoomMtg {
   external static void init(InitParams initParams);
   external static void join(JoinParams joinParams);
   external static String generateSignature(SignatureParams signatureParams);
-  external static dynamic checkSystemRequirements();
+  external static dynamic checkFeatureRequirements();
   external static void inMeetingServiceListener(
       String event, Function(MeetingStatus) callback);
 }
