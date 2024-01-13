@@ -74,7 +74,7 @@
 /*!
  @brief Determine if show the last used avatar in the meeting.
  @param bShow YES indicates to show the last used avatar.
- @return If the function succeeds, the return value is SDKErr_Success.Otherwise failed.
+ @return If the function succeeds, the return value is MobileRTCSDKError_Success.Otherwise failed.
  */
 - (MobileRTCSDKError)showAvatar:(BOOL)bShow;
 

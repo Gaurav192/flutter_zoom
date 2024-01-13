@@ -97,6 +97,7 @@ typedef NS_ENUM(NSUInteger, MobileRTCAnnoClearType) {
 /*!
  @brief Set the types of annotation tools.  
  @return The result of operation.
+ @warning The tool type MobileRTCAnnoTool_Picker and MobileRTCAnnoTool_SpotLight are not support for viewer.
  */
 - (MobileRTCAnnotationError)setToolType:(MobileRTCAnnoTool)type;
 

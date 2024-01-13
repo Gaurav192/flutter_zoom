@@ -20,6 +20,7 @@
 #import "MobileRTCRawLiveStreamInfo.h"
 #import "MobileRTCRequestRawLiveStreamPrivilegeHandler.h"
 #import "MobileRTCShareAudioSender.h"
+#import "MobileRTCMeetingChat.h"
 
 @class MobileRTCInterpretationLanguage;
 @class MobileRTCMeetingParameter;
@@ -28,6 +29,7 @@
 @class MobileRTCMeetingInviteActionItem;
 @class MobileRTCMeetingShareActionItem;
 @class MobileRTCLiveTranscriptionMessageInfo;
+@class MobileRTCSmartSummaryPrivilegeHandler;
 
 #pragma mark - MobileRTCMeetingServiceDelegate
 /*!
@@ -89,6 +91,13 @@
  @param status The new recording status.
  */
 - (void)onLocalRecordingStatus:(NSInteger)userId status:(MobileRTCRecordingStatus)status;
+
+/*!
+ @brief An event sink that the cloud recording storage is full.
+ @param gracePeriodDate A point in time, in milliseconds in, UTC.
+ @warning You can use the cloud recording storage until the gracePeriodDate.
+ */
+- (void)onCloudRecordingStorageFull:(long)gracePeriodDate;
 
 /*!
  @brief The meeting has ended.
@@ -250,7 +259,13 @@
  @brief An in-meeting chat message has been received.
  @param messageID The message ID.
  */
-- (void)onInMeetingChat:(NSString * _Nonnull)messageID;
+- (void)onInMeetingChat:(NSString * _Nonnull)messageID DEPRECATED_MSG_ATTRIBUTE("Use -onChatMessageNotification: instead");;
+
+/*!
+ @brief An in-meeting chat message has been received.
+ @param chatInfo  The meeting chat information.
+ */
+- (void)onChatMessageNotification:(MobileRTCMeetingChat * _Nullable)chatInfo;
 
 /*!
  @brief A chat message has been deleted.
@@ -319,6 +334,12 @@
  @brief The waiting room status has changed.
  */
 - (void)onWaitingRoomStatusChange:(BOOL)needWaiting;
+
+/*!
+ @brief This callback event will be triggered when host or cohost enables or disables waiting room entrance.
+ @param enabled True means enables waiting room entrance, false means disables waiting room entrance.
+ */
+- (void)onWaitingRoomEntranceEnabled:(BOOL)enabled;
 
 /*!
  @brief The chat privilege of attendees has changed.
@@ -401,15 +422,97 @@
  */
 - (void)onRequestLocalRecordingPrivilegeChanged:(MobileRTCLocalRecordingRequestPrivilegeStatus)status;
 
-@end
+/**
+ * @brief Sink the event that participant profile status change
+ * @param hidden true means hide participant profile picture, false means show participant profile picture.
+ */
+- (void)onParticipantProfilePictureStatusChange:(BOOL)hidden;
+
+#pragma mark -- smart summary --
+/*!
+ * @brief Callback event when smart summary status changes.
+ * @param isStarted true means that the smart summary is started. False means it has not.
+ */
+- (void)onSmartSummaryStatusChange:(BOOL)isStarted;
+
+/*!
+ * @brief Callback event when a user requests the host to start smart summary.
+ * @param userId The user who requests the host to start smart summary.
+ * @param handler The handler to handle the smart summary start request.
+ */
+- (void)onSmartSummaryPrivilegeRequested:(NSInteger)userId handler:(MobileRTCSmartSummaryPrivilegeHandler *_Nullable)handler;
+
+/*!
+ * @brief Callback event when the host handle the smart summary request.
+ * @param timeout true means the host doesn't handle the request until timeout.
+ * @param decline true means the host declines the request, false means the host agrees to the request.
+ */
+- (void)onSmartSummaryStartReqResponse:(BOOL)timeout decline:(BOOL)isDecline;
+
+/*!
+ * @brief Sink the event that AI Companion active status changed.
+ * @param isActive YES means the AI Companion is active
+ */
+- (void)onAICompanionActiveChangeNotice:(BOOL)isActive;
+
+#pragma mark - MobileRTCPollingServiceDelegate
+
+/*!
+* @brief Polling status changed callback. Use this function to inform the user that the polling has been started, share result or stopped.
+* @param pollingID Specify the status changed poll's ID.
+* @param status Specify current polling status. For more details, see \link MobileRTCPollingStatus \endlink enum.
+*/
+- (void)onPollingStatusChanged:(NSString*_Nullable)pollingID status:(MobileRTCPollingStatus)status;
+
+/*!
+ * @brief Polling result updated callback. When a participant submits polling.
+ * @param pollingID Specify the result updated poll's ID.
+ */
+- (void)onPollingResultUpdated:(NSString*_Nullable)pollingID;
+
+/*!
+ * @brief Polling list updated callback. This is triggered when a host adds, edits, duplicates, or deletes a poll.
+ */
+- (void)onPollingListUpdated;
+
+/*!
+ * @brief Polling action result callback. This is triggered when a user perform an action for a poll.
+ * @param actionType Specify the action type. For more details, see \link MobileRTCPollingActionType \endlink enum.
+ * @param pollingID Specify the action poll's ID.
+ * @param bSuccess Specify whether the action succeeds.
+ * @param errorMsg Specify the error message when the action fails. It is only for  MobileRTCPollingActionType_Error.
+ * @warning If actionType is MobileRTCPollingActionType_Error, use errorMsg. This errorMsg may be triggered by any action.
+ */
+- (void)onPollingActionResult:(MobileRTCPollingActionType)actionType pollingID:(NSString*_Nullable)pollingID bSuccess:(BOOL)bSuccess errorMsg:(NSString*_Nullable)errorMsg;
+
+/*!
+ * @brief Polling question item image downloaded callback.
+ * @param questionID Specify the polling question's ID.
+ * @param path Specify the image downloaded path.
+ * @warning This is triggered when a user starts or joins a meeting, if any polling question has an image, or the host uploads an image to a polling question in the meeting.
+ */
+- (void)onPollingQuestionImageDownloaded:(NSString*_Nullable)questionID path:(NSString*_Nullable)path;
+
+/*!
+ * @brief Polling elapsed time callback.
+ * @param questionID Specify the polling question's ID.
+ * @param uElapsedtime Specify the polling elapsed time in milliseconds.
+ * @warning This is triggered when a host starts a poll or a user changes to host from non host.
+ */
+- (void)onPollingElapsedTime:(NSString*_Nullable)pollingID uElapsedtime:(int)uElapsedtime;
+
+/*!
+ * @brief Callback event for the user get right answer list privilege changed. This is triggered when the host calls EnableGetRightAnswerList in a quiz.
+ * @param bCan Specify whether the user has get right answer list privilege or not.
+ */
+- (void)onGetRightAnswerListPrivilege:(BOOL)bCan;
+
+/*!
+ * @brief polling inactive callback. When the user starts a meeting in another device by same account, this callback is triggered. Then call CanDoPolling return false.
+ */
+- (void)onPollingInactive;
 
 #pragma mark - MobileRTCAudioServiceDelegate
-/*!
- @protocol MobileRTCAudioServiceDelegate
- @brief Callbacks related to updates to in-meeting audio functionality for the current user's device and audio status of other users.
- */
-@protocol MobileRTCAudioServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
 /*!
  @brief @brief A user's audio status has changed. To get their updated status, check [MobileRTCMeetingUserInfo.audioStatus] for the associated user.
  @param UserID The ID of user whose audio status has changed.
@@ -448,15 +551,8 @@
  @brief The host has requested the current user to unmute their microphone.
  */
 - (void)onSinkMeetingAudioRequestUnmuteByHost;
-@end
 
 #pragma mark - MobileRTCVideoServiceDelegate
-/*!
- @protocol MobileRTCVideoServiceDelegate
- @brief Callbacks related to updates to in-meeting video functionality for the current user's device and video status of other users.
- */
-@protocol MobileRTCVideoServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
 /*!
  @brief The user being displayed in the active video view has changed.
  @param userID The ID of user whose video is being displayed.
@@ -516,7 +612,7 @@
 /*!
  @brief The host has requested the current user to unmute their video.
  */
-- (void)onSinkMeetingVideoRequestUnmuteByHost:(void (^_Nonnull)(BOOL Accept))completion;
+- (void)onSinkMeetingVideoRequestUnmuteByHost:(MobileRTCSDKError (^_Nonnull)(BOOL Accept))completion;
 
 /*!
  @brief The meeting UI has been minimized or returned to fullscreen.
@@ -544,16 +640,23 @@
  */
 - (void)onFollowHostVideoOrderChanged:(BOOL)follow;
 
-@end
+/*!
+ @brief Whiteboard status changed callback. Use this function to inform the user that the whiteboard has been started or stopped, and all users in the meeting can get the event.
+ @param status Specify current whiteboard status. For more details, see [MobileRTCWhiteboardStatus].
+ @warning The function only for Custom UI.
+ */
+- (void)onWhiteboardStatusChanged:(MobileRTCWhiteboardStatus)status;
 
+/*!
+ @brief Callback event of whiteboard setting type changed.
+ @param shareOption Who can share their whiteboard. For more details, see [MobileRTCWhiteboardShareOption]
+ @param createOption Who can create a new whiteboard. For more details, see [MobileRTCWhiteboardCreateOption]
+ @param enable Whether enable the participants create whiteboard without host in the meeting.
+ */
+- (void)onWhiteboardSettingsChanged:(MobileRTCWhiteboardShareOption)shareOption createOption:(MobileRTCWhiteboardCreateOption)createOption enable:(BOOL)enable;
 
 #pragma mark - MobileRTCUserServiceDelegate
-/*!
- @protocol MobileRTCUserServiceDelegate
- @brief The attendee's status changes.
- */
-@protocol MobileRTCUserServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
+
 /*!
  @brief The current user's hand state changes.
  */
@@ -622,15 +725,9 @@
  @brief A user claims the host.
  */
 - (void)onClaimHostResult:(MobileRTCClaimHostError)error;
-@end
 
 #pragma mark - MobileRTCShareServiceDelegate
-/*!
- @protocol MobileRTCShareServiceDelegate
- @brief The meeting sharing status changes.
- */
-@protocol MobileRTCShareServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
+
 /*!
  @brief A meeting starts by sharing.
  */
@@ -656,15 +753,7 @@
  */
 - (void)onSinkShareSizeChange:(NSUInteger)userID;
 
-@end
-
 #pragma mark - MobileRTCInterpretationServiceDelegate
-/*!
- @protocol MobileRTCInterpretationServiceDelegate
- @brief Callback event when the Interpretaion status change.
- */
-@protocol MobileRTCInterpretationServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
 
 /*!
  @brief Interpretation starts. Informs the user that interpretation has been started. All users in the meeting get the event.
@@ -714,10 +803,6 @@
 */
 - (void)onInterpreterLanguagesUpdated:(NSArray <MobileRTCInterpretationLanguage *> *_Nullable)availableLanguages;
 
-@end
-
-@protocol MobileRTCSignInterpretationServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
 /*!
  @brief Sign interpretation staus change callback. Informs the user that sign interpretation has been started or stopped. All users in meeting can get the event.
  @param status Specify current sign interpretation status.
@@ -757,16 +842,7 @@
  */
 - (void)onTalkPrivilegeChanged:(BOOL)hasPrivilege;
 
-@end
-
-
 #pragma mark - MobileRTCWebinarServiceDelegate
-/*!
- @protocol MobileRTCWebinarServiceDelegate
- @brief Indicates when the Webinar changes.
- */
-@protocol MobileRTCWebinarServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
 /*!
  @brief Indicates when Question and Answer (Q&A) connection starts
  */
@@ -957,13 +1033,8 @@
  @param canViewParticipantCount If the view participant is allowed, the result is YES, otherwise NO.
 */
 - (void)onAllowAttendeeViewTheParticipantCountStatusChanged:(BOOL)canViewParticipantCount;
-@end
 
-/*!
- @brief Invoke this function when the attendee is not allowed to talk.
-*/
-@protocol MobileRTCLiveTranscriptionServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
+#pragma mark - MobileRTCLiveTranscriptionServiceDelegate
 
 /**
  * @brief Sink the event of captions enabled status changed.
@@ -1011,13 +1082,7 @@
 */
 - (void)onSinkRequestForLiveTranscriptReceived:(NSUInteger)requesterUserId bAnonymous:(BOOL)bAnonymous;
 
-@end
-
-/*!
-@brief Invoke this function when using a 3D avatar.
-*/
-@protocol MobileRTC3DAvatarDelegate <MobileRTCMeetingServiceDelegate>
-@optional
+#pragma mark - MobileRTC3DAvatarDelegate
 /*!
  @brief Callback event to notify that all 3D avatar items' thumbnails have been download.
 */
@@ -1035,7 +1100,214 @@
  @param success Yes indicates the selected 3D avatar item has been downloaded successfully.
 */
 - (void)on3DAvatarItemDataDownloaded:(bool)success andIndex:(int)index;
+
+
+#pragma mark - MobileRTCBOServiceDelegate
+/*!
+ @brief Notify that the creator role is given.
+ @param creator the creator role is given.
+*/
+- (void)onHasCreatorRightsNotification:(MobileRTCBOCreator *_Nonnull)creator;
+
+/*!
+ @brief Notify that the admin role is given.
+ @param admin The admin role is given.
+*/
+- (void)onHasAdminRightsNotification:(MobileRTCBOAdmin * _Nonnull)admin;
+
+/*!
+ @brief Notify that the assistant role is given.
+ @param assistant The assistant role is given.
+*/
+- (void)onHasAssistantRightsNotification:(MobileRTCBOAssistant * _Nonnull)assistant;
+
+/*!
+ @brief Notify that the attendee role is given.
+ @param attendee The attendee role is given.
+*/
+- (void)onHasAttendeeRightsNotification:(MobileRTCBOAttendee * _Nonnull)attendee;
+
+/*!
+ @brief Notify that the data helper role is given.
+ @param dataHelper The data helper role is given.
+*/
+- (void)onHasDataHelperRightsNotification:(MobileRTCBOData * _Nonnull)dataHelper;
+
+/*!
+ @brief  The status of broadcasting voice to BO has been changed.
+ @param bStart YES for host begin broadcasting voice to BO, NO for host stop broadcasting voice to BO.
+ */
+- (void)onBroadcastBOVoiceStatus:(BOOL)bStart;
+
+/*!
+ @brief A lost creator role notification.
+*/
+- (void)onLostCreatorRightsNotification;
+
+/*!
+ @brief A lost admin role notification.
+*/
+- (void)onLostAdminRightsNotification;
+
+/*!
+ @brief A lost assistant role notification.
+*/
+- (void)onLostAssistantRightsNotification;
+
+/*!
+ @brief A lost attendee role notification.
+*/
+- (void)onLostAttendeeRightsNotification;
+
+/*!
+ @brief A lost data helper role notification.
+*/
+- (void)onLostDataHelperRightsNotification;
+
+/*!
+ @brief A broadcast message notification.
+ @param broadcastMsg The broadcast message received from host.
+ @param senderID The senderID.
+ @param senderName The sender Name.
+*/
+- (void)onNewBroadcastMessageReceived:(NSString *_Nullable)broadcastMsg senderID:(NSUInteger)senderID senderName:(NSString *_Nullable)senderName;
+
+/*!
+ @brief When BOOption.countdownSeconds != MobileRTCBOStopCountDown_Not_CountDown, host stop the breakout room and all users receive the event.
+ @param seconds The countdown in seconds.
+ @warning Please leave the breakout room when the countdown ends.
+*/
+- (void)onBOStopCountDown:(NSUInteger)seconds;
+
+/*!
+ @brief When you are in a breakout room and the host invites you return to main session, you receive the event.
+ @param hostName the host name.
+ @param replyHandler the handler to reply for the main session invitation.
+*/
+- (void)onHostInviteReturnToMainSession:(NSString *_Nullable)hostName replyHandler:(MobileRTCReturnToMainSessionHandler *_Nullable)replyHandler;
+
+/*!
+ @brief When host change the breakout room status, all users receive the event.
+ @param status The current status of the breakout room.
+*/
+- (void)onBOStatusChanged:(MobileRTCBOStatus)status;
+
+/*!
+ @brief When the host modifies the breakout room, all users receive the event.
+ @param newBOName The new brekaout room name.
+ @param newBOID The new breakout room ID.
+ */
+- (void)onBOSwitchRequestReceived:(NSString *_Nullable)newBOName newBOID:(NSString *_Nullable)newBOID;
+
+#pragma mark - MobileRTCBODataDelegate
+/*!
+ @brief The updated breakout meeting information.
+ @param boId The identifier for the breakout meeting.
+*/
+- (void)onBOInfoUpdated:(NSString *_Nullable)boId;
+
+/*!
+ @brief The unassigned user update.
+*/
+- (void)onUnAssignedUserUpdated;
+
+/*!
+ @brief The BO list info updated.
+*/
+- (void)onBOListInfoUpdated;
+
+#pragma mark - MobileRTCBOAdminDelegate
+/*!
+ @brief Admin receives help request from userID.
+ @param strUserID The identifier of the breakout room meeting user.
+*/
+- (void)onHelpRequestReceived:(NSString *_Nullable)strUserID;
+
+/*!
+ @brief Admin receives an error when breakout room start fails.
+ @param errType The error type defail of the failure.
+*/
+- (void)onStartBOError:(MobileRTCBOControllerError)errType;
+
+/*!
+ @brief In a timed breakout, after starting a breakout room, you receive the event.
+ @param remaining Remaining time.
+ @param isTimesUpNotice true: when time is up, auto stop breakout room. false: don't auto stop breakout room.
+ */
+- (void)onBOEndTimerUpdated:(NSUInteger)remaining isTimesUpNotice:(BOOL)isTimesUpNotice;
+
+#pragma mark - MobileRTCBOAttendeeDelegate
+/*!
+ @brief Receive the result of sending a help request.
+ @param eResult The response result for the help request.
+*/
+- (void)onHelpRequestHandleResultReceived:(MobileRTCBOHelpReply)eResult;
+
+/*!
+ @brief The host joins the current breakout meeting.
+*/
+- (void)onHostJoinedThisBOMeeting;
+
+/*!
+ @brief The host leaves the current breakout meeting.
+*/
+- (void)onHostLeaveThisBOMeeting;
+
+#pragma mark - MobileRTCBOCreatorDelegate
+/*!
+ @brief Creator receives breakout identifier when successfully creating the breakout room.
+ @param BOID The identifier of the created breakout.
+*/
+- (void)onBOCreateSuccess:(NSString *_Nullable)BOID;
+
+/*!
+ @brief When the pre-assigned data download status changes, you will receive the event.
+ @param status download status, for more details, see [MobileRTCBOPreAssignBODataStatus]].
+*/
+- (void)onWebPreAssignBODataDownloadStatusChanged:(MobileRTCBOPreAssignBODataStatus)status;
+
+/*!
+@brief You will receive the event when the option changes.
+@param newOption new BO Option.
+*/
+- (void)onBOOptionChanged:(MobileRTCBOOption *_Nonnull)newOption;
+
+#pragma mark - MobileRTCReactionServiceDelegate
+/*!
+ @brief Notify receipt of the emoji reaction.
+ @param userId The user ID of the send emoji reaction.
+ @param type The send emoji reaction type.
+ @param skinTone The send emoji reaction skintone.
+ */
+- (void)onEmojiReactionReceived:(NSUInteger)userId reactionType:(MobileRTCEmojiReactionType)type reactionSkinTone:(MobileRTCEmojiReactionSkinTone)skinTone;
+
+/*!
+ @brief Emoji reaction callback. This callback notifies the user when an emoji is received in the webinar.
+ @param type Specify the received reaction's type.
+ */
+- (void)onEmojiReactionReceivedInWebinar:(MobileRTCEmojiReactionType)type;
+
+/*!
+ @brief Emoji feedback received callback. This function is used to inform the user once received the emoji feedback sent by others or user himself.
+ @param userId Specify the user ID of the emoji feedback sender.
+ @param type Specify the type of the received emoji feedback.
+ */
+- (void)onEmojiFeedbackReceived:(NSUInteger)userId feedbackType:(MobileRTCEmojiFeedbackType)type;
+
+/*!
+ @brief Emoji feedback canceled callback. This function is used to inform the user once the received emoji feedback sent by others or user himself was canceled.
+ @param userId Specify the user ID of the emoji feedback sender.
+ */
+- (void)onEmojiFeedbackCanceled:(NSUInteger)userId;
+
+#pragma mark - ZoomSDKMeetingEncryptionDelegate
+/*!
+ @brief This callback will be called when the security code changes.
+ */
+- (void)onE2EEMeetingSecurityCodeChanged;
+
 @end
+
 #pragma mark - MobileRTCCustomizedUIMeetingDelegate
 /*!
  @protocol MobileRTCCustomizedUIMeetingDelegate
@@ -1114,6 +1386,12 @@
  @param rawData Raw audio data.
  */
 - (void)onMobileRTCOneWayAudioAudioRawData:(MobileRTCAudioRawData *_Nonnull)rawData userId:(NSUInteger)userId;
+
+/*!
+ @brief Notify to receive the share audio raw data.
+ @param data The received audio raw data.
+ */
+- (void)onShareAudioRawDataReceived:(MobileRTCAudioRawData *_Nonnull)rawData;
 @end
 
 #pragma mark - MobileRTCAudioSourceDelegate
@@ -1202,7 +1480,7 @@
 
 @end
 
-#pragma mark - MobileRTCVideoSourceDelegate
+#pragma mark - MobileRTCShareSourceDelegate
 /*!
  @protocol MobileRTCVideoSourceDelegate
  @brief Send your own share raw data.
@@ -1237,7 +1515,7 @@
 
 @end
 
-#pragma mark - MobileRTCAudioRawDataDelegate
+#pragma mark - MobileRTCSMSServiceDelegate
 
 @class MobileRTCRealNameCountryInfo;
 @class MobileRTCRetrieveSMSHandler;
@@ -1268,218 +1546,4 @@
  */
 - (void)onVerifySMSVerificationCodeResultNotification:(MobileRTCSMSVerifyResult)result;
 
-@end
-
-#pragma mark - MobileRTCBOServiceDelegate
-@protocol MobileRTCBOServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
-/*!
- @brief Notify that the creator role is given.
- @param creator the creator role is given.
-*/
-- (void)onHasCreatorRightsNotification:(MobileRTCBOCreator *_Nonnull)creator;
-
-/*!
- @brief Notify that the admin role is given.
- @param admin The admin role is given.
-*/
-- (void)onHasAdminRightsNotification:(MobileRTCBOAdmin * _Nonnull)admin;
-
-/*!
- @brief Notify that the assistant role is given.
- @param assistant The assistant role is given.
-*/
-- (void)onHasAssistantRightsNotification:(MobileRTCBOAssistant * _Nonnull)assistant;
-
-/*!
- @brief Notify that the attendee role is given.
- @param attendee The attendee role is given.
-*/
-- (void)onHasAttendeeRightsNotification:(MobileRTCBOAttendee * _Nonnull)attendee;
-
-/*!
- @brief Notify that the data helper role is given.
- @param dataHelper The data helper role is given.
-*/
-- (void)onHasDataHelperRightsNotification:(MobileRTCBOData * _Nonnull)dataHelper;
-
-/*!
- @brief  The status of broadcasting voice to BO has been changed.
- @param bStart YES for host begin broadcasting voice to BO, NO for host stop broadcasting voice to BO.
- */
-- (void)onBroadcastBOVoiceStatus:(BOOL)bStart;
-
-/*!
- @brief A lost creator role notification.
-*/
-- (void)onLostCreatorRightsNotification;
-
-/*!
- @brief A lost admin role notification.
-*/
-- (void)onLostAdminRightsNotification;
-
-/*!
- @brief A lost assistant role notification.
-*/
-- (void)onLostAssistantRightsNotification;
-
-/*!
- @brief A lost attendee role notification.
-*/
-- (void)onLostAttendeeRightsNotification;
-
-/*!
- @brief A lost data helper role notification.
-*/
-- (void)onLostDataHelperRightsNotification;
-
-/*!
- @brief A broadcast message notification.
- @param broadcastMsg The broadcast message received from host.
- @param senderID The senderID.
-*/
-- (void)onNewBroadcastMessageReceived:(NSString *_Nullable)broadcastMsg senderID:(NSUInteger)senderID;
-
-/*!
- @brief When BOOption.countdownSeconds != MobileRTCBOStopCountDown_Not_CountDown, host stop the breakout room and all users receive the event.
- @param seconds The countdown in seconds.
- @warning Please leave the breakout room when the countdown ends.
-*/
-- (void)onBOStopCountDown:(NSUInteger)seconds;
-
-/*!
- @brief When you are in a breakout room and the host invites you return to main session, you receive the event.
- @param hostName the host name.
- @param replyHandler the handler to reply for the main session invitation.
-*/
-- (void)onHostInviteReturnToMainSession:(NSString *_Nullable)hostName replyHandler:(MobileRTCReturnToMainSessionHandler *_Nullable)replyHandler;
-
-/*!
- @brief When host change the breakout room status, all users receive the event.
- @param status The current status of the breakout room.
-*/
-- (void)onBOStatusChanged:(MobileRTCBOStatus)status;
-
-/*!
- @brief When the host modifies the breakout room, all users receive the event.
- @param newBOName The new brekaout room name.
- @param newBOID The new breakout room ID.
- */
-- (void)onBOSwitchRequestReceived:(NSString *_Nullable)newBOName newBOID:(NSString *_Nullable)newBOID;
-@end
-
-#pragma mark - MobileRTCReactionServiceDelegate
-@protocol MobileRTCReactionServiceDelegate <MobileRTCMeetingServiceDelegate>
-@optional
-/*!
- @brief Notify receipt of the emoji reaction.
- @param userId The user ID of the send emoji reaction.
- @param type The send emoji reaction type.
- @param skinTone The send emoji reaction skintone.
- */
-- (void)onEmojiReactionReceived:(NSUInteger)userId reactionType:(MobileRTCEmojiReactionType)type reactionSkinTone:(MobileRTCEmojiReactionSkinTone)skinTone;
-
-/*!
- @brief Emoji reaction callback. This callback notifies the user when an emoji is received in the webinar.
- @param type Specify the received reaction's type.
- */
-- (void)onEmojiReactionReceivedInWebinar:(MobileRTCEmojiReactionType)type;
-
-/*!
- @brief Emoji feedback received callback. This function is used to inform the user once received the emoji feedback sent by others or user himself.
- @param userId Specify the user ID of the emoji feedback sender.
- @param type Specify the type of the received emoji feedback.
- */
-- (void)onEmojiFeedbackReceived:(NSUInteger)userId feedbackType:(MobileRTCEmojiFeedbackType)type;
-
-/*!
- @brief Emoji feedback canceled callback. This function is used to inform the user once the received emoji feedback sent by others or user himself was canceled.
- @param userId Specify the user ID of the emoji feedback sender.
- */
-- (void)onEmojiFeedbackCanceled:(NSUInteger)userId;
-
-@end
-
-
-#pragma mark - MobileRTCBOServiceDelegate
-@protocol MobileRTCBODataDelegate <MobileRTCMeetingServiceDelegate>
-@optional
-/*!
- @brief The updated breakout meeting information.
- @param boId The identifier for the breakout meeting.
-*/
-- (void)onBOInfoUpdated:(NSString *_Nullable)boId;
-
-/*!
- @brief The unassigned user update.
-*/
-- (void)onUnAssignedUserUpdated;
-
-/*!
- @brief The BO list info updated.
-*/
-- (void)onBOListInfoUpdated;
-
-@end
-
-#pragma mark - MobileRTCBOServiceDelegate
-@protocol MobileRTCBOAdminDelegate <MobileRTCMeetingServiceDelegate>
-@optional
-/*!
- @brief Admin receives help request from userID.
- @param strUserID The identifier of the breakout room meeting user.
-*/
-- (void)onHelpRequestReceived:(NSString *_Nullable)strUserID;
-
-/*!
- @brief Admin receives an error when breakout room start fails.
- @param errType The error type defail of the failure.
-*/
-- (void)onStartBOError:(MobileRTCBOControllerError)errType;
-
-/*!
- @brief In a timed breakout, after starting a breakout room, you receive the event.
- @param remaining Remaining time.
- @param isTimesUpNotice true: when time is up, auto stop breakout room. false: don't auto stop breakout room.
- */
-- (void)onBOEndTimerUpdated:(NSUInteger)remaining isTimesUpNotice:(BOOL)isTimesUpNotice;
-
-@end
-
-#pragma mark - MobileRTCBOServiceDelegate
-@protocol MobileRTCBOAttendeeDelegate <MobileRTCMeetingServiceDelegate>
-@optional
-/*!
- @brief Receive the result of sending a help request.
- @param eResult The response result for the help request.
-*/
-- (void)onHelpRequestHandleResultReceived:(MobileRTCBOHelpReply)eResult;
-
-/*!
- @brief The host joins the current breakout meeting.
-*/
-- (void)onHostJoinedThisBOMeeting;
-
-/*!
- @brief The host leaves the current breakout meeting.
-*/
-- (void)onHostLeaveThisBOMeeting;
-
-@end
-
-#pragma mark - MobileRTCBOServiceDelegate
-@protocol MobileRTCBOCreatorDelegate <MobileRTCMeetingServiceDelegate>
-@optional
-/*!
- @brief Creator receives breakout identifier when successfully creating the breakout room.
- @param BOID The identifier of the created breakout.
-*/
-- (void)onBOCreateSuccess:(NSString *_Nullable)BOID;
-
-/*!
- @brief When the pre-assigned data download status changes, you will receive the event.
- @param status download status, for more details, see [MobileRTCBOPreAssignBODataStatus]].
-*/
-- (void)onWebPreAssignBODataDownloadStatusChanged:(MobileRTCBOPreAssignBODataStatus)status;
 @end

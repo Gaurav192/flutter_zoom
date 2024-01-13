@@ -27,6 +27,9 @@
 #import <MobileRTC/MobileRTCMeetingService+LiveTranscription.h>
 #import <MobileRTC/MobileRTCMeetingService+RawArchiving.h>
 #import <MobileRTC/MobileRTCMeetingService+Phone.h>
+#import <MobileRTC/MobileRTCMeetingService+SmartSummary.h>
+#import <MobileRTC/MobileRTCMeetingService+Whiteboard.h>
+#import <MobileRTC/MobileRTCMeetingService+Polling.h>
 #import <MobileRTC/MobileRTCMeetingSettings.h>
 #import <MobileRTC/MobileRTCInviteHelper.h>
 #import <MobileRTC/MobileRTCRoomDevice.h>
@@ -89,6 +92,12 @@
 @property (nonatomic, copy) NSString                        * _Nullable replaykitBundleIdentifier;
 
 @property (nonatomic, assign) NSInteger                     wrapperType;
+
+/*!
+ @brief Enable Custom In-Meeting UI in meeting.
+ */
+@property (assign, nonatomic) BOOL enableCustomizeMeetingUI;
+
 @end
 
 /*!
@@ -174,6 +183,12 @@
  @return YES indicates support. Otherwise not.
  */
 - (BOOL)isSupportedCustomizeMeetingUI;
+
+/*!
+ @brief Query if custom meeting UI is enable by MobileRTC.
+ @return YES indicates enable. Otherwise not.
+ */
+- (BOOL)isEnabledCustomizeMeetingUI;
 
 /*!
  @brief Get the default authentication service.  

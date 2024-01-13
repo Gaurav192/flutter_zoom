@@ -67,6 +67,13 @@
 */
 - (MobileRTCBOStatus)getBOStatus;
 
+/*!
+ @brief Get the name of the BO you are going to.
+ @return The value is join bo name which you are going to.
+ @note When you enter a BO or are switched to another BO by the host, maybe you need the BO name to display on transfer UI.
+ */
+- (NSString *)getJoiningBOName;
+
 @end
 
 

@@ -142,7 +142,14 @@
  @brief Notification service status changed callback.
  @param status The value of transfer meeting service. For more details, see [MobileRTCNotificationServiceStatus].
  */
-- (void)onNotificationServiceStatus:(MobileRTCNotificationServiceStatus)status;
+- (void)onNotificationServiceStatus:(MobileRTCNotificationServiceStatus)status DEPRECATED_MSG_ATTRIBUTE("Use -onNotificationServiceStatus:error: instead");
+
+/*!
+ @brief Notification service status changed callback.
+ @param status The value of transfer meeting service. For more details, see {@link ZoomSDKNotificationServiceStatus}.
+ @param error Connection Notification service fail error code. For more details, see {@link ZoomSDKNotificationServiceError}.
+ */
+- (void)onNotificationServiceStatus:(MobileRTCNotificationServiceStatus)status error:(MobileRTCNotificationServiceError)error;
 
 @end
 

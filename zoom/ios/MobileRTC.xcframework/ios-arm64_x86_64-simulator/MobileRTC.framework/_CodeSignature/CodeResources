@@ -6,11 +6,11 @@
 	<dict>
 		<key>Headers/MobileRTC.h</key>
 		<data>
-		zPWl0ADdf7WRyurP2X8vOJaB67Y=
+		3oBBrmuYVhpEmfmV2OmVraUg3ps=
 		</data>
 		<key>Headers/MobileRTCAnnotationService.h</key>
 		<data>
-		ek5lRYT9D0VPzlkL3L6o6P8RkS8=
+		pt8vFiGbCW9qsGhSiSunEpXkLw0=
 		</data>
 		<key>Headers/MobileRTCAudioRawData.h</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Headers/MobileRTCAuthService.h</key>
 		<data>
-		rXiQol1Zo1Y8ZgzO3BJ1YkE9pRo=
+		P+WsmL6ELiwUwwBtAN8xMkHAdug=
 		</data>
 		<key>Headers/MobileRTCAutoFramingParameter.h</key>
 		<data>
@@ -38,7 +38,7 @@
 		</data>
 		<key>Headers/MobileRTCBORole.h</key>
 		<data>
-		zr2jIxmUkNi/eor3308vSYERNiE=
+		EUVgqjh+xd/lmsr4UMLXlOV1PAo=
 		</data>
 		<key>Headers/MobileRTCCallCountryCode.h</key>
 		<data>
@@ -46,7 +46,7 @@
 		</data>
 		<key>Headers/MobileRTCConstants.h</key>
 		<data>
-		zjnzfvvJb2AWItUR8d9rLpXfYfA=
+		xqJwqy00G/1NelQP5DeSL+i7GV4=
 		</data>
 		<key>Headers/MobileRTCDirectShareService.h</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Headers/MobileRTCInMeetingDeviceInfo.h</key>
 		<data>
-		0xlEs5qqzqzTAyMpI+1lOnDWI+E=
+		ZcNcAeFuJopwf7OvqrCK4lVW5uE=
 		</data>
 		<key>Headers/MobileRTCInviteHelper.h</key>
 		<data>
@@ -70,11 +70,11 @@
 		</data>
 		<key>Headers/MobileRTCMeetingChat.h</key>
 		<data>
-		FubsDz3u+ywOrHHsOMjipG8Qk+M=
+		uC9HF3NNNA5zbK8+erpyqH/NmD4=
 		</data>
 		<key>Headers/MobileRTCMeetingDelegate.h</key>
 		<data>
-		RsElA3PdKKGmAfLv/aUWLcStGyc=
+		sMljqcN9vgTPG3Mnb+Udo3J8Huk=
 		</data>
 		<key>Headers/MobileRTCMeetingService+AppShare.h</key>
 		<data>
@@ -86,23 +86,27 @@
 		</data>
 		<key>Headers/MobileRTCMeetingService+Avatar.h</key>
 		<data>
-		ai4+ONYNzz0cCC/nJCwviCMtYvQ=
+		e0zRsBISfESvLH1pPEdzqZxI5cI=
 		</data>
 		<key>Headers/MobileRTCMeetingService+BO.h</key>
 		<data>
-		s3v/cFV1xaW4GH02n3CtenYcDGU=
+		Lehve/MIijaq5shPsOy/kD6x1WQ=
 		</data>
 		<key>Headers/MobileRTCMeetingService+Chat.h</key>
 		<data>
-		mJS+0r2QIyONahG/j50ApXd93jA=
+		pvz/62Fd89MCklVX9MYvtZe2HXQ=
 		</data>
 		<key>Headers/MobileRTCMeetingService+Customize.h</key>
 		<data>
 		HIX4oS+0p3oc7VTSwf/xo0vdsA8=
 		</data>
+		<key>Headers/MobileRTCMeetingService+Encryption.h</key>
+		<data>
+		wLa6Zc/tN1jfTW/kNjubBpdoyX4=
+		</data>
 		<key>Headers/MobileRTCMeetingService+InMeeting.h</key>
 		<data>
-		eTUaA7wCKif9+iXKv4c7J/kHPhE=
+		r+xBtyvApe762eP8CJ9QoKJc1uI=
 		</data>
 		<key>Headers/MobileRTCMeetingService+Interpretation.h</key>
 		<data>
@@ -110,11 +114,15 @@
 		</data>
 		<key>Headers/MobileRTCMeetingService+LiveTranscription.h</key>
 		<data>
-		szsy610ceABxx+17QYl2b1YsKyg=
+		6cc8bMUFrTrLSkne/9FMimm8l7Q=
 		</data>
 		<key>Headers/MobileRTCMeetingService+Phone.h</key>
 		<data>
 		Y4mN/4BqDuAW7LOIpJVzEkHIBYU=
+		</data>
+		<key>Headers/MobileRTCMeetingService+Polling.h</key>
+		<data>
+		8oXfI8HPCShJJXIJmFSfSo1hJ40=
 		</data>
 		<key>Headers/MobileRTCMeetingService+RawArchiving.h</key>
 		<data>
@@ -123,6 +131,10 @@
 		<key>Headers/MobileRTCMeetingService+Reaction.h</key>
 		<data>
 		JayznNcw6cx5pdgUIBLqCANc3AY=
+		</data>
+		<key>Headers/MobileRTCMeetingService+SmartSummary.h</key>
+		<data>
+		KTk/u/e4KVNm8s3lIp+CF/6QetM=
 		</data>
 		<key>Headers/MobileRTCMeetingService+User.h</key>
 		<data>
@@ -138,19 +150,23 @@
 		</data>
 		<key>Headers/MobileRTCMeetingService+Webinar.h</key>
 		<data>
-		e+eSvGIrdkl89Pxa4bHJcTrglaY=
+		d9X1XUe6TIFXQigzakbX8WREffI=
+		</data>
+		<key>Headers/MobileRTCMeetingService+Whiteboard.h</key>
+		<data>
+		chKcncn6WUIxCV59pXWnS/OYPUQ=
 		</data>
 		<key>Headers/MobileRTCMeetingService.h</key>
 		<data>
-		B6ZREL0fBrSzXMVmkJnveNnq0PE=
+		NZe+DvaK18UPDYNUB7wW1fabC8o=
 		</data>
 		<key>Headers/MobileRTCMeetingSettings.h</key>
 		<data>
-		ZhvoOK/SV1iOycpov1x6D4g+9xU=
+		rskqaa7zbz3VgU3DiZXc4d4163s=
 		</data>
 		<key>Headers/MobileRTCMeetingUserInfo.h</key>
 		<data>
-		3KKYnwPzUfnVAuYfGnpCdqLWtxc=
+		bRA9HrIPOQ1YiLh0iq5Wpf5gMYU=
 		</data>
 		<key>Headers/MobileRTCNotificationServiceHelper.h</key>
 		<data>
@@ -174,7 +190,7 @@
 		</data>
 		<key>Headers/MobileRTCReminderHelper.h</key>
 		<data>
-		UUfebnMjqJCw1A5valLCE50TPu4=
+		dwhXRP6PmgxqeeK9os2YYtfNSjI=
 		</data>
 		<key>Headers/MobileRTCRemoteControlService.h</key>
 		<data>
@@ -234,19 +250,19 @@
 		</data>
 		<key>Headers/MobileRTCWaitingRoomService.h</key>
 		<data>
-		wdmsHUZYEFCHBizSnV8tnsMjtZM=
+		3Ql6tMeLXHPo1HyPLEfEzs/JPYo=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		QJn9Kn13pkrXnHk1VKwesKOKYOk=
+		UFrz+Nkdp1XtVepH7562oBFCqa0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		/ILpsYv0ChkLqhS4kV95brluqKk=
+		iRFT1CumuAOI1MQHRdaHaFks0lI=
 		</data>
 		<key>nydusDefault.metallib</key>
 		<data>
-		oUUF1BBz+tdNmNEqiSFaxeYlP7Y=
+		D9ql3KS7ODQJUMYv+LSDpIeIPAI=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -255,14 +271,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			D2+mUD/rqzDXg+3w24SKJEBvRhsD1JZfdXHj+L2EZrM=
+			KQvhNs4b28Tx3o7siEl/2OwFqNAs2yi4LAVbmnGCqcc=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCAnnotationService.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			R5DllJNoNBpnjK9nLTAffJQAIEGwqO/h3IrPf9zNrGc=
+			DpbE4+p1O4Ktx4spZDlRtqMm7GHschNvVThJjgcBpP0=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCAudioRawData.h</key>
@@ -297,7 +313,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			axL80Y0kINmAG8u3d82Ayds1YSeGeWem9lzIxtyTnFA=
+			B4N4xbZToMnkDG5BHKCRTeBG/ap+nHsxNhk+vXlZUX8=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCAutoFramingParameter.h</key>
@@ -311,7 +327,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			hcUii+jcE3Gj12NOoEdGZrkTbNM4j+GCrjrbtccUI3Q=
+			WuLRyvsgWEJNY/QkkeHuDzp9Nw18br3O95Un84J4LBY=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCCallCountryCode.h</key>
@@ -325,7 +341,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			mNaPigHCU7ZALwN6eaUcC6bJuiU3MgKxQ5p2csq7pjI=
+			SiialXxDcKGCC4bRLg5NOPfzluJdlx+TuDmPHnOsclo=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCDirectShareService.h</key>
@@ -339,7 +355,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			juglTHavj9E28Hg/BEi1ujswOy36WQfDzeUmdMLNliw=
+			H0DkIAw/7LP1g7NfUhKZRmh4VNvzGsgtpMxGWfWTyOU=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCInviteHelper.h</key>
@@ -367,14 +383,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			8Ez6FKQTLKlqk8CB3iUogwgoWxtgHw/f+sbLHTIa6DI=
+			IMjgR8lse0UiGwzftE6MymprdKel96qMkC8SqRMq1Sc=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingDelegate.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			NVye6r5n+xjNP6lImXAlziDIbMaErstGDuXM+hRJGvc=
+			Fq6aEbBnbkkDTNiz/wcdpPFHMFKOVlmwUjW8uIUUiIU=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService+AppShare.h</key>
@@ -395,21 +411,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vcpHVbL6edzcASoy4KYy/VUzbrafBMbLRXPdhzLITkE=
+			KwXrWla4cB0IqpgGtnqD/1v9bxiSLz2MJGOje5uDppY=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService+BO.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			diu9GsD/E9+EHMpKWQdMFrJI+s8paRVzCXUqXqqxR7Q=
+			0KXiHaaqGo5PF+CtZ7JSew2tBtDDrhV61YPelUWUKHw=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService+Chat.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			l7Hrbm1c8EG7qq0kNZlWIkjsX2WB1fXLyuBKLcgjOak=
+			MhmSfT52evPX+/D7sulDciIgKdNoOKiHb0BtEaAn794=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService+Customize.h</key>
@@ -419,11 +435,18 @@
 			6ySQxHp2sH2GlZSdx0IGSWBJo0gAaInpZWEuhLvcD/g=
 			</data>
 		</dict>
+		<key>Headers/MobileRTCMeetingService+Encryption.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			rWozot6Qfb14r8QlYU+RM2l0yGW3PhAQxk8xaFoKCuo=
+			</data>
+		</dict>
 		<key>Headers/MobileRTCMeetingService+InMeeting.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			N3W6Wcg2XpFxOnPbjwPy+0WFcfb+uYeupsm7y5R9QYk=
+			WT97yNZiZPhYHBiT2Q3ek36ZJ65J6LjBn4OlL1uKBCM=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService+Interpretation.h</key>
@@ -437,7 +460,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			6yn8d5RmcOkcDrnyxGtpzUKMLE17Ni02Nzr6KiQZMy4=
+			oRfKdQS6LMarIr/I0rEubY0mqfwbXYJC3yiAcco3534=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService+Phone.h</key>
@@ -445,6 +468,13 @@
 			<key>hash2</key>
 			<data>
 			jZpPFR76SnSStsqeS1BBwnQRWRJqKlgIzl6UyLx3Mrw=
+			</data>
+		</dict>
+		<key>Headers/MobileRTCMeetingService+Polling.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			AJCVLVIeykPfspY4K/luu+QgpvNNVaXh5ZEXrtuqTaM=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService+RawArchiving.h</key>
@@ -459,6 +489,13 @@
 			<key>hash2</key>
 			<data>
 			d7sJm5HqCEOuG5QFP4DRRvcVuy9CvljUHxjlSy0CdQE=
+			</data>
+		</dict>
+		<key>Headers/MobileRTCMeetingService+SmartSummary.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			HLKBxro/IS8cys0vXyzZ/zshs46fxH1JIFk2cPSZlt0=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService+User.h</key>
@@ -486,28 +523,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			SETYDapmfbt239PgUqCowfI5cRY5k5NtlH9ALMCjEyY=
+			aQIIFtkMHi1OAsF6fwo0WyCXlvyONhia/tQN1JknGVc=
+			</data>
+		</dict>
+		<key>Headers/MobileRTCMeetingService+Whiteboard.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ycCh5tVJtXEzM/IvDqwtM9m4r3SnCESri9J1eHdbmPE=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingService.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			XZ16zEpxCo3OaHCvf8zOG+/Jie4TSyYiQ7jnm1PoYNA=
+			99B5IjM/suP8EgXShzPNaDkLY/dSej5Xt/mENis89dY=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingSettings.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UGJHpGmNDNhV3/2lbzehBhwIyJsdXFh5yL0dKKdXpMs=
+			k7o+OM07qozIJ6zAoqylFaOTHABKWnRhd3DQRUESiHU=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCMeetingUserInfo.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gNySDqsQGEyN4TBF9rJsQu4nSK3jdk9mF2SUiL901E0=
+			hS5priuit+phzebeYFVFUH5H/NJvZfr1rfGHArezJAo=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCNotificationServiceHelper.h</key>
@@ -549,7 +593,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Kymdugvz3RsJiwZP+Y+oebQsh/RDCwEONXMUf+oeabQ=
+			1GyzWfr6o2QpoEadb0Rxnm5IySLiBJarCPkBQUAquyw=
 			</data>
 		</dict>
 		<key>Headers/MobileRTCRemoteControlService.h</key>
@@ -654,21 +698,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			8SGeAQVaCG/kWpN0LLbkIl00tnHG5XgFer34iB93+f8=
+			Nq3eiB/DVsS4QQHqyVAh5gTKsT/GJEhUhWqd4DCq8CQ=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			2n1PDl8H/6Y1jDDAwm11nofAHDekWW6Tv0ChNSKVSbM=
+			Php6D/f/9Vfg6Fl+ABUvWOwwHK35dXD2vh5AJxv3o9g=
 			</data>
 		</dict>
 		<key>nydusDefault.metallib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qvcFx5xQSnFVKr325dYAbnjNtDbU8Fcvh6AlwAT7wj4=
+			klI6HBD0N2FiwvHE0UUdpanQQrhrGjvkjvFNvMyBU7o=
 			</data>
 		</dict>
 	</dict>

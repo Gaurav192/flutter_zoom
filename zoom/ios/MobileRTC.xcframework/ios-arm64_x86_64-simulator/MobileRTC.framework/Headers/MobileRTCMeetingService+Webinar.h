@@ -325,6 +325,12 @@
 - (BOOL)isQALegalNoticeAvailable;
 
 /*!
+ @brief Determine if current webinar supports emoji reactions.
+ @return YES means the current webinar supports emoji reactions, NO means the feature is not supported.
+ */
+- (BOOL)isWebinarEmojiReactionSupported;
+
+/*!
 @brief Query if emoji reactions status.
 @return webinar emoji reaction be allowed or not
 */

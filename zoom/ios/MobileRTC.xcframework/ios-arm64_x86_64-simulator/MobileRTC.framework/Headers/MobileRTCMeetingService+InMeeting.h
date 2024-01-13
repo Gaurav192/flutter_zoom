@@ -275,7 +275,7 @@
 /*!
  @brief Remove the raw live stream privilege.
  @param userId Specify the ID of the user whose privilege will be removed.
- @return If the function succeeds, the return value is SDKErr_Success. Otherwise it fails. To get extended error information, see [MobileRTCSDKError] enum.
+ @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise it fails. To get extended error information, see [MobileRTCSDKError] enum.
  */
 - (MobileRTCSDKError)removeRawLiveStreamPrivilege:(NSUInteger)userId;
 
@@ -352,6 +352,19 @@
  */
 - (MobileRTCANNError)hideAANPanel;
 
+/*!
+ * @brief Show the dynamic notice for the AI Companion panel view.
+ * @param containerView Show the AI Companion panel's dynamic notice in this view.
+ * @param originXY the origin point which the panel placed in the containerView.
+ * @return If invoke succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed, for more details, see {@link MobileRTCSDKError}.
+ */
+- (MobileRTCSDKError)showDynamicNoticeForAICompanionPanel:(UIView *_Nullable)containerView originPoint:(CGPoint)originXY;
+
+/*!
+ * @brief Hide dynamic notice for AI Companion panel view.
+ * @return If invoke succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed, for more details, see {@link MobileRTCSDKError}.
+ */
+- (MobileRTCSDKError)hideDynamicNoticeForAICompanionPanel;
 
 #pragma mark - Q&A Related
 /*!
@@ -488,15 +501,36 @@
 - (MobileRTCSDKError)autoAllowLocalRecordingRequest:(BOOL)allow;
 
 /**
- * Whether the current user is able to suspend all participant activities
+ * @brief Whether the current user is able to suspend all participant activities
  * @return YES means user can  suspend participant activities,
  */
 
 - (BOOL)canSuspendParticipantsActivities;
+
 /**
- * Suspend all participant activities
+ * @brief Suspend all participant activities
  * @return MobileRTCANNError_Success means the operation succeed, otherwise no
- * @warning Audio,Video,Share,Chat,Wihteboard funcation will be suspended,that need to call allowParticipantsToUnmuteSelf.allowParticipantsToStartVideo.lockShare.changeAttendeeChatPriviledge and allowParticipantsToShareWhiteBoard interfaces to resume
+ * @warning  Audio,Video,Share,Chat,Wihteboard funcation will be suspended,that need to call allowParticipantsToUnmuteSelf.allowParticipantsToStartVideo.lockShare.changeAttendeeChatPriviledge and allowParticipantsToShareWhiteBoard interfaces to resume
  */
 - (MobileRTCSDKError)suspendParticipantsActivites;
+
+/**
+ * @brief Query if the current user can hide participant profile pictures.
+ * @Note: This feature is influenced by focus mode change.
+ * @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed, for more details, see {@link MobileRTCSDKError}.
+ */
+- (MobileRTCSDKError)canHideParticipantProfilePictures;
+
+/**
+ * @brief Hide/Show participant profile pictures.
+ * @param hide true means hide participant profile pictures, false means show participant pictures.
+ * @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed, for more details, see {@link MobileRTCSDKError}.
+ */
+- (MobileRTCSDKError)hideParticipantProfilePictures:(BOOL)hide;
+
+/**
+ * Query if the current meeting hides participant pictures.
+ * @return true means hide participant pictures, false means show participant pictures
+ */
+- (BOOL)isParticipantProfilePicturesHidden;
 @end

@@ -53,6 +53,10 @@
  */
 @property (nonatomic, assign) BOOL isBlock;
 
+/**
+ * Get the type of the action which user should take after receiving this reminder content.
+ */
+@property (nonatomic, assign) MobileRTCReminderActionType actionType;
 
 @end
 

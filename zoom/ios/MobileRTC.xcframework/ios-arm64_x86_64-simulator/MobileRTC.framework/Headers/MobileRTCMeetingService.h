@@ -56,6 +56,11 @@
  */
 @property(nullable, nonatomic, copy) NSString *inviteContactID;
 
+/**
+ * @brief <Optional> Is audio raw data stereo? The default is mono.
+ */
+@property (nonatomic, assign, readwrite) BOOL isAudioRawDataStereo;
+
 @end
 
 /**
@@ -149,6 +154,11 @@
  * @brief <Optional> Is my voice in the mixed audio raw data?
  */
 @property (nonatomic, assign, readwrite) BOOL isMyVoiceInMix;
+
+/**
+ * @brief <Optional> Is audio raw data stereo? The default is mono.
+ */
+@property (nonatomic, assign, readwrite) BOOL isAudioRawDataStereo;
 
 @end
 
