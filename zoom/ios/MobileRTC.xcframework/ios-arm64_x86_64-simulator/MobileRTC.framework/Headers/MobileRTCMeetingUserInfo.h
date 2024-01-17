@@ -196,32 +196,9 @@ typedef NS_ENUM(NSUInteger, MobileRTCFeedbackType) {
  */
 @property (nonatomic, assign) BOOL             isInterpreter;
 /*!
- @brief Determine whether the user specified by the current information is a sign language interpreter or not.
- @brief YES indicates that the specified user is a sign language  interpreter, otherwise false.
- */
-@property (nonatomic, assign) BOOL             isSignLanguageInterpreter;
-/*!
  @brief Get interpreter active language.
  */
 @property (nonatomic, retain) NSString* _Nullable   interpreterActiveLanguage;
-
-/*!
- @brief Determine whether the user has started a raw live stream.
- @brief YES indicates that the specified user has started a raw live stream, otherwise false.
-*/
-@property (nonatomic, assign) BOOL             isRawLiveStreaming;
-/*!
- @brief Determine whether the user has raw live stream privilege.
- @brief YES indicates that the specified user has raw live stream privilege, otherwise false.
-*/
-@property (nonatomic, assign) BOOL             hasRawLiveStreamPrivilege;
-
-/*!
- @brief  Determine whether the user corresponding to the current information is the sender of Closed Caption or not.
- @return YES indicates that the user is the sender of Closed Caption.
-*/
-@property (nonatomic, assign) BOOL       isClosedCaptionSender;
-
 @end
 
 /*!

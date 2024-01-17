@@ -251,7 +251,7 @@ typedef NS_ENUM(NSUInteger, MobileRTCBOStopCountDown) {
 
 /*!
 @brief Request web pre-assigned data and create those rooms.
-@return If the function succeeds, the return value is MobileRTCSDKError_Success.Otherwise failed. To get extended error information, see [MobileRTCSDKError]
+@return If the function succeeds, the return value is SDKErr_Success.Otherwise failed. To get extended error information, see [MobileRTCSDKError]
 */
 - (MobileRTCSDKError)requestAndUseWebPreAssignBOList;
 

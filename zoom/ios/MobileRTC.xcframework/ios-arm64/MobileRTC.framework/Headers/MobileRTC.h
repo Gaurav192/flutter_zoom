@@ -28,8 +28,6 @@
 #import <MobileRTC/MobileRTCMeetingService+RawArchiving.h>
 #import <MobileRTC/MobileRTCMeetingService+Phone.h>
 #import <MobileRTC/MobileRTCMeetingService+SmartSummary.h>
-#import <MobileRTC/MobileRTCMeetingService+Whiteboard.h>
-#import <MobileRTC/MobileRTCMeetingService+Polling.h>
 #import <MobileRTC/MobileRTCMeetingSettings.h>
 #import <MobileRTC/MobileRTCInviteHelper.h>
 #import <MobileRTC/MobileRTCRoomDevice.h>

@@ -187,7 +187,7 @@
 /*!
  @brief set spoken language of the current user.
  @param languageID: the speak language id.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed. To get extended error information, see \link SDKError \endlink enum.
+ @return If the function succeeds, the return value is SDKErr_Success. Otherwise failed. To get extended error information, see \link SDKError \endlink enum.
  */
 - (BOOL)setMeetingSpokenLanguage:(NSInteger)languageID;
 
@@ -205,7 +205,7 @@
 /*!
  @brief set the translation language of the current user.
  @param languageID: the translation language id. If the language ID is set to -1, live translation will be disabled,then you can reveive closed caption when host set meeting manual caption is true.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed. To get extended error information, see \link SDKError \endlink enum.
+ @return If the function succeeds, the return value is SDKErr_Success. Otherwise failed. To get extended error information, see \link SDKError \endlink enum.
  */
 - (BOOL)setTranslationLanguage:(NSInteger)languageID;
 

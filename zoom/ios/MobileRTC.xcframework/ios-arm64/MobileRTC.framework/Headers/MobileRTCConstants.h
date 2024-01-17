@@ -189,8 +189,6 @@ typedef NS_ENUM(NSUInteger, MobileRTCMeetError) {
     ///To join a meeting hosted by an external Zoom account, your SDK app has to be published on Zoom Marketplace.
     ///You can refer to Section 6.1 of Zoom's API License Terms of Use.
     MobileRTCMeetError_UnableToJoinExternalMeeting      = 63,
-    ///Need sign in using the same account as the meeting organizer..
-    MobileRTCMeetError_NeedSignInForPrivateMeeting      = 82,
     ///Invalid arguments.
     MobileRTCMeetError_InvalidArguments                 = MobileRTCMeetError_WriteConfigFile + 100,
     ///Invalid user Type.
@@ -501,14 +499,6 @@ typedef NS_ENUM(NSUInteger, MobileRTCSendChatError) {
     MobileRTCSendChatError_PermissionDenied         = 2,
 };
 
-/*!
- @brief Type of meeting encryption.
- */
-typedef NS_ENUM(NSUInteger, MobileRTCMeetingEncryptionType) {
-    MobileRTCMeetingEncryptionType_None,
-    MobileRTCMeetingEncryptionType_Enhanced,
-    MobileRTCMeetingEncryptionType_E2EE
-};
 /*!
  @brief MobileRTCAnnotationError An enumeration of annotation-related operational error states.
  */
@@ -1006,10 +996,8 @@ typedef NS_ENUM(NSUInteger, MobileRTCRecordingStatus) {
     MobileRTCRecording_Pause,
     //recording connecting.
     MobileRTCRecording_Connecting,
-    //There is no more space to store cloud recording.
+    //recording disk full.
     MobileRTCRecording_DiskFull,
-    //Saving the recording failed.
-    MobileRTCRecording_Fail,
 };
 
 /*!
@@ -1221,8 +1209,6 @@ typedef NS_ENUM(NSUInteger, MobileRTCReminderType) {
     MobileRTCReminderType_EnableSmartSummaryReminder,
     /// Reminder type of webinar attendee promote
     MobileRTCReminderType_WebinarAttendeePromoteReminder,
-    /// Reminder type of joining a meeting with private mode.
-    MobileRTCReminderType_JoinPrivateModeMeetingReminder,
 };
 
 typedef NS_ENUM(NSInteger, MobileRTCInviteMeetingStatus) {
@@ -1259,15 +1245,6 @@ typedef NS_ENUM(NSInteger, MobileRTCPresenceStatus) {
     MobileRTCPresenceStatus_Calendar,
     /// Presence status out of office
     MobileRTCPresenceStatus_OutOfOffice
-};
-
-/*!
- @brief Enumerations of the type for join private mode meeting
- */
-typedef NS_ENUM(NSInteger, MobileRTCReminderActionType) {
-    MobileRTCReminderActionType_None = 0,          ///<Need no more action.
-    MobileRTCReminderActionType_NeedSignIn,        ///<Need to sign in.
-    MobileRTCReminderActionType_NeedSwitchAccount  ///<Need to switch account.
 };
 
 typedef NS_ENUM(NSInteger, MobileRTCAutoFramingMode) {
@@ -1308,57 +1285,3 @@ typedef NS_ENUM(NSInteger, MobileRTCRichTextStyle) {
     MobileRTCRichTextStyle_InsertLink
 };
 
-typedef NS_ENUM(NSInteger, MobileRTCWhiteboardShareOption) {
-    MobileRTCWhiteboardShareOption_HostShare,         ///<Only the host can share a whiteboard.
-    MobileRTCWhiteboardShareOption_HostGrabShare,     ///<Anyone can share a whiteboard, but only one can share at a time, and only the host can take another's sharing role.
-    MobileRTCWhiteboardShareOption_AllGrabShare       ///<Anyone can share a whiteboard, but only one can share at a time, and anyone can take another's sharing role.
-};
-
-typedef NS_ENUM(NSInteger, MobileRTCWhiteboardCreateOption) {
-    MobileRTCWhiteboardCreateOption_HostOnly,         ///<Only the host can initiate a new whiteboard.
-    MobileRTCWhiteboardCreateOption_AccountUsers,     ///<Users under the same account as the meeting owner can initiate a new whiteboard.
-    MobileRTCWhiteboardCreateOption_All               ///<All participants can initiate a new whiteboard.
-};
-
-typedef NS_ENUM(NSInteger, MobileRTCWhiteboardStatus) {
-    MobileRTCWhiteboardStatus_Started, ///< User stared sharing their whiteboard.
-    MobileRTCWhiteboardStatus_Stopped, ///< User stopped sharing their whiteboard.
-};
-
-typedef NS_ENUM(NSInteger, MobileRTCPollingStatus) {
-    MobileRTCPollingStatus_Initial,     ///<The initial status
-    MobileRTCPollingStatus_Started,     ///< User started polling.
-    MobileRTCPollingStatus_ShareResult, ///< User shared polling result.
-    MobileRTCPollingStatus_Stopped,     ///< User stopped polling.
-};
-
-typedef NS_ENUM(NSInteger, MobileRTCPollingType) {
-    MobileRTCPollingType_Unknown,
-    MobileRTCPollingType_Poll,
-    MobileRTCPollingType_Quiz
-};
-
-typedef NS_ENUM(NSInteger, MobileRTCPollingQuestionType) {
-    MobileRTCPollingQuestionType_Unknown,
-    MobileRTCPollingQuestionType_Single,
-    MobileRTCPollingQuestionType_Multi,
-    MobileRTCPollingQuestionType_Matching,
-    MobileRTCPollingQuestionType_RankOrder,
-    MobileRTCPollingQuestionType_ShortAnswer,
-    MobileRTCPollingQuestionType_LongAnswer,
-    MobileRTCPollingQuestionType_FillBlank,
-    MobileRTCPollingQuestionType_RatingScale,
-    MobileRTCPollingQuestionType_Dropdown,
-};
-
-typedef NS_ENUM(NSInteger, MobileRTCPollingActionType) {
-    MobileRTCPollingActionType_Unknown,
-    MobileRTCPollingActionType_Start,
-    MobileRTCPollingActionType_Stop,
-    MobileRTCPollingActionType_ShareResult,
-    MobileRTCPollingActionType_StopShareResult,
-    MobileRTCPollingActionType_Duplicate,
-    MobileRTCPollingActionType_Delete,
-    MobileRTCPollingActionType_Submit,
-    MobileRTCPollingActionType_Error
-};

@@ -275,7 +275,7 @@
 /*!
  @brief Remove the raw live stream privilege.
  @param userId Specify the ID of the user whose privilege will be removed.
- @return If the function succeeds, the return value is MobileRTCSDKError_Success. Otherwise it fails. To get extended error information, see [MobileRTCSDKError] enum.
+ @return If the function succeeds, the return value is SDKErr_Success. Otherwise it fails. To get extended error information, see [MobileRTCSDKError] enum.
  */
 - (MobileRTCSDKError)removeRawLiveStreamPrivilege:(NSUInteger)userId;
 
@@ -356,13 +356,13 @@
  * @brief Show the dynamic notice for the AI Companion panel view.
  * @param containerView Show the AI Companion panel's dynamic notice in this view.
  * @param originXY the origin point which the panel placed in the containerView.
- * @return If invoke succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed, for more details, see {@link MobileRTCSDKError}.
+ * @return If invoke succeeds, the return value is SDKERR_SUCCESS. Otherwise failed, for more details, see {@link MobileRTCSDKError}.
  */
 - (MobileRTCSDKError)showDynamicNoticeForAICompanionPanel:(UIView *_Nullable)containerView originPoint:(CGPoint)originXY;
 
 /*!
  * @brief Hide dynamic notice for AI Companion panel view.
- * @return If invoke succeeds, the return value is MobileRTCSDKError_Success. Otherwise failed, for more details, see {@link MobileRTCSDKError}.
+ * @return If invoke succeeds, the return value is SDKERR_SUCCESS. Otherwise failed, for more details, see {@link MobileRTCSDKError}.
  */
 - (MobileRTCSDKError)hideDynamicNoticeForAICompanionPanel;
 
