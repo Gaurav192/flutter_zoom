@@ -92,20 +92,20 @@ Future<void> checkAndDownloadSDK(String location) async {
     }
   }
 
-  /*  var androidCommonLibFile = location + '/android/libs/commonlib.aar';
+  var androidCommonLibFile = location + '/android/libs/commonlib.aar';
   bool exists = await File(androidCommonLibFile).exists();
   if (!exists) {
     await downloadFile(
         Uri.parse(
-            'https://www.dropbox.com/scl/fi/2u2uvjn79cu08svwtmtl9/commonlib.aar?rlkey=qklcjep9pdqcgskpavcz9r9zj&dl=1'),
+            'https://www.dropbox.com/scl/fi/zfr0dgi4i6d0l7mc98hnb/commonlib.aar?rlkey=t56nralbn31kkl8loudfvyu9h&dl=1'),
         androidCommonLibFile);
-  } */
+  }
   var androidRTCLibFile = location + '/android/libs/mobilertc.aar';
-  bool exists = await File(androidRTCLibFile).exists();
+  exists = await File(androidRTCLibFile).exists();
   if (!exists) {
     await downloadFile(
         Uri.parse(
-            'https://www.dropbox.com/scl/fi/3sf079cike36d4khbus7e/mobilertc.aar?rlkey=mrsmacrc29mr0lr7ghgx66j3k&dl=1'),
+            'https://www.dropbox.com/scl/fi/2zx1vekygypvjvs0la88z/mobilertc.aar?rlkey=lc0yhebtb9lv1hgphgkwomdnk&dl=1'),
         androidRTCLibFile);
   }
 }
