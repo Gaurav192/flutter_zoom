@@ -22,7 +22,8 @@ void main(List<String> args) async {
     String? zoomFileUri;
     for (var package in packageList) {
       if (package["name"] == "zoom") {
-        zoomFileUri = package["rootUri"];
+        //replace ../ to fix path issue for local dependency
+        zoomFileUri = package["rootUri"].replaceFirst("../", "");
         break;
       }
     }
