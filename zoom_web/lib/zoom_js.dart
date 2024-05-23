@@ -1,75 +1,95 @@
 @JS()
 library zoom;
 
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 @JS()
-@anonymous // needed along with factory constructor
+@anonymous
+@staticInterop // needed along with factory constructor
 class InitParams {
   external factory InitParams(
-      {leaveUrl,
-      showMeetingHeader,
-      disableInvite,
-      disableCallOut,
-      disableRecord,
-      disableJoinAudio,
-      audioPanelAlwaysOpen,
-      showPureSharingContent,
-      isSupportAV,
-      isSupportChat,
-      isSupportQA,
-      isSupportCC,
-      isSupportPolling,
-      isSupportBreakout,
-      screenShare,
+      {JSString? leaveUrl,
+      JSBoolean? showMeetingHeader,
+      JSBoolean? disableInvite,
+      JSBoolean? disableCallOut,
+      JSBoolean? disableRecord,
+      JSBoolean? disableJoinAudio,
+      JSBoolean? audioPanelAlwaysOpen,
+      JSBoolean? showPureSharingContent,
+      JSBoolean? isSupportAV,
+      JSBoolean? isSupportChat,
+      JSBoolean? isSupportQA,
+      JSBoolean? isSupportCC,
+      JSBoolean? isSupportPolling,
+      JSBoolean? isSupportBreakout,
+      JSBoolean? screenShare,
       // rwcBackup,
-      videoDrag,
-      sharingMode,
-      videoHeader,
-      isLockBottom,
-      isSupportNonverbal,
-      isShowJoiningErrorDialog,
-      disablePreview,
-      disableCORP,
-      inviteUrlFormat,
-      disableVoIP,
-      disableReport,
-      meetingInfo,
-      success,
-      error});
-  external String get leaveUrl;
-}
-
-@JS()
-@anonymous // needed along with factory constructor
-class JoinParams {
-  external factory JoinParams(
-      {meetingNumber, userName, signature, sdkKey, passWord, success, error});
-}
-
-@JS()
-@anonymous // needed along with factory constructor
-class SignatureParams {
-  external factory SignatureParams({meetingNumber, sdkKey, apiSecret, role});
+      JSBoolean? videoDrag,
+      JSString? sharingMode,
+      JSBoolean? videoHeader,
+      JSBoolean? isLockBottom,
+      JSBoolean? isSupportNonverbal,
+      JSBoolean? isShowJoiningErrorDialog,
+      JSBoolean? disablePreview,
+      JSBoolean? disableCORP,
+      JSString? inviteUrlFormat,
+      JSBoolean? disableVoIP,
+      JSBoolean? disableReport,
+      JSArray<JSString>? meetingInfo,
+      JSFunction? success,
+      JSFunction? error});
+  external static String get leaveUrl;
 }
 
 @JS()
 @anonymous
-class MeetingStatus {
-  external factory MeetingStatus({int meetingStatus});
-  external int get meetingStatus;
+@staticInterop // needed along with factory constructor
+class JoinParams {
+  external factory JoinParams(
+      {JSAny meetingNumber,
+      JSString userName,
+      JSString signature,
+      JSString? sdkKey,
+      JSString? passWord,
+      JSFunction? success,
+      JSFunction? error});
 }
 
 @JS()
+@anonymous
+@staticInterop // needed along with factory constructor
+class SignatureParams {
+  external factory SignatureParams(
+      {JSString meetingNumber,
+      JSString sdkKey,
+      JSString apiSecret,
+      JSString role});
+}
+
+@JS()
+@anonymous
+extension type MeetingStatus._(JSObject _) implements JSObject {
+  external factory MeetingStatus({int meetingStatus});
+  int get meetingStatus => meetingStatus;
+}
+
+@JS()
+@anonymous
+extension type ZoomMtgLang._(JSObject _) implements JSObject {
+  external JSPromise<JSAny> load(JSString lang);
+}
+
+@JS()
+@staticInterop
 class ZoomMtg {
-  external static void setZoomJSLib(String path, String dir);
-  external static final i18n;
+  external static void setZoomJSLib(JSString path, JSString dir);
+  external static ZoomMtgLang i18n;
   external static void preLoadWasm();
   external static void prepareWebSDK();
   external static void init(InitParams initParams);
   external static void join(JoinParams joinParams);
-  external static String generateSignature(SignatureParams signatureParams);
-  external static dynamic checkFeatureRequirements();
+  external static JSString generateSignature(SignatureParams signatureParams);
+  external static JSAny checkFeatureRequirements();
   external static void inMeetingServiceListener(
-      String event, Function(MeetingStatus) callback);
+      JSString event, JSFunction callback);
 }

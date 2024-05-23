@@ -1,5 +1,7 @@
 import 'dart:async';
-import 'dart:js' as js;
+import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
+
 import 'package:flutter/foundation.dart';
 import 'package:zoom_platform_interface/zoom_platform_interface.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -38,56 +40,58 @@ class ZoomWeb extends ZoomPlatform {
 
   static const _zoomSdkVersion = '3.1.0';
 
-  static String get _selectZoomSdkVersion =>
-      js.context.hasProperty('zoomSdkVersion')
-          ? js.context['zoomSdkVersion']
-          : _zoomSdkVersion;
+  static String get _selectZoomSdkVersion {
+    print(globalContext.hasProperty('zoomSdkVersion'.toJS));
+    return globalContext.hasProperty('zoomSdkVersion'.toJS).toDart
+        ? globalContext.getProperty('zoomSdkVersion'.toJS).dartify().toString()
+        : _zoomSdkVersion;
+  }
 
   @override
   Future<List> initZoom(ZoomOptions options) async {
     ZoomMtg.setZoomJSLib(
-        'https://source.zoom.us/$_selectZoomSdkVersion/lib', '/av');
+        'https://source.zoom.us/$_selectZoomSdkVersion/lib'.toJS, '/av'.toJS);
     final Completer<List> completer = Completer();
     var sus = ZoomMtg.checkFeatureRequirements();
     var susmap = convertToDart(sus);
     debugPrint(susmap.toString());
-    ZoomMtg.i18n.load(options.language);
+    ZoomMtg.i18n.load(options.language!.toJS);
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareWebSDK();
     ZoomMtg.init(InitParams(
-        leaveUrl: options.leaveUrl,
-        showMeetingHeader: options.showMeetingHeader,
-        disableInvite: options.disableInvite,
-        disableCallOut: options.disableCallOut,
-        disableRecord: options.disableRecord,
-        disableJoinAudio: options.disableJoinAudio,
-        audioPanelAlwaysOpen: options.audioPanelAlwaysOpen,
-        isSupportAV: options.isSupportAV,
-        isSupportChat: options.isSupportChat,
-        isSupportQA: options.isSupportQA,
-        isSupportCC: options.isSupportCC,
-        isSupportPolling: options.isSupportPolling,
-        isSupportBreakout: options.isSupportBreakout,
-        screenShare: options.screenShare,
+        leaveUrl: options.leaveUrl.toJS,
+        showMeetingHeader: options.showMeetingHeader?.toJS,
+        disableInvite: options.disableInvite?.toJS,
+        disableCallOut: options.disableCallOut?.toJS,
+        disableRecord: options.disableRecord?.toJS,
+        disableJoinAudio: options.disableJoinAudio?.toJS,
+        audioPanelAlwaysOpen: options.audioPanelAlwaysOpen?.toJS,
+        isSupportAV: options.isSupportAV?.toJS,
+        isSupportChat: options.isSupportChat?.toJS,
+        isSupportQA: options.isSupportQA?.toJS,
+        isSupportCC: options.isSupportCC?.toJS,
+        isSupportPolling: options.isSupportPolling?.toJS,
+        isSupportBreakout: options.isSupportBreakout?.toJS,
+        screenShare: options.screenShare?.toJS,
         // rwcBackup: options.rwcBackup,
-        videoDrag: options.videoDrag,
-        sharingMode: options.sharingMode,
-        videoHeader: options.videoHeader,
-        isLockBottom: options.isLockBottom,
-        isSupportNonverbal: options.isSupportNonverbal,
-        isShowJoiningErrorDialog: options.isShowJoiningErrorDialog,
-        disablePreview: options.disablePreview,
-        disableCORP: options.disableCORP,
-        inviteUrlFormat: options.inviteUrlFormat,
-        disableVoIP: options.disableVOIP,
-        disableReport: options.disableReport,
-        meetingInfo: options.meetingInfo,
-        success: js.allowInterop((var res) {
+        videoDrag: options.videoDrag?.toJS,
+        sharingMode: options.sharingMode?.toJS,
+        videoHeader: options.videoHeader?.toJS,
+        isLockBottom: options.isLockBottom?.toJS,
+        isSupportNonverbal: options.isSupportNonverbal?.toJS,
+        isShowJoiningErrorDialog: options.isShowJoiningErrorDialog?.toJS,
+        disablePreview: options.disablePreview?.toJS,
+        disableCORP: options.disableCORP?.toJS,
+        inviteUrlFormat: options.inviteUrlFormat?.toJS,
+        disableVoIP: options.disableVOIP?.toJS,
+        disableReport: options.disableReport?.toJS,
+        meetingInfo: options.meetingInfo?.map((e) => e.toJS).toList().toJS,
+        success: ((JSAny res) {
           completer.complete([0, 0]);
-        }),
-        error: js.allowInterop((var res) {
+        }).toJS,
+        error: ((JSAny res) {
           completer.complete([1, 0]);
-        })));
+        }).toJS));
     return completer.future;
   }
 
@@ -105,20 +109,19 @@ class ZoomWeb extends ZoomPlatform {
     //     apiSecret: "ApiKey",
     //     role: 0));
     ZoomMtg.join(JoinParams(
-        meetingNumber: (options.meetingId),
-        userName:
-            options.displayName != null ? options.displayName : options.userId,
-        signature: options.signature!,
-        sdkKey: options.sdkKey!,
-        passWord: options.meetingPassword,
-        success: js.allowInterop((var res) {
+        meetingNumber: (options.meetingId.toJS),
+        userName: (options.displayName ?? options.userId).toJS,
+        signature: options.signature!.toJS,
+        sdkKey: options.sdkKey!.toJS,
+        passWord: options.meetingPassword.toJS,
+        success: ((JSAny res) {
           if (!completer.isCompleted) completer.complete(true);
-        }),
-        error: js.allowInterop((var res) {
+        }).toJS,
+        error: ((JSAny res) {
           if (!completer.isCompleted) {
             completer.complete(false);
           }
-        })));
+        }).toJS));
     return completer.future;
   }
 
@@ -132,30 +135,31 @@ class ZoomWeb extends ZoomPlatform {
     // final Completer<bool> completer = Completer();
     streamController?.close();
     streamController = StreamController<dynamic>();
-    ZoomMtg.inMeetingServiceListener('onMeetingStatus',
-        js.allowInterop((status) {
-      //print(stringify(MeetingStatus status));
-      var r = List<String>.filled(2, "");
-      // 1(connecting), 2(connected), 3(disconnected), 4(reconnecting)
-      switch (status.meetingStatus) {
-        case 1:
-          r[0] = "MEETING_STATUS_CONNECTING";
-          break;
-        case 2:
-          r[0] = "MEETING_STATUS_INMEETING";
-          break;
-        case 3:
-          r[0] = "MEETING_STATUS_DISCONNECTING";
-          break;
-        case 4:
-          r[0] = "MEETING_STATUS_INMEETING";
-          break;
-        default:
-          r[0] = status.meetingStatus.toString();
-          break;
-      }
-      streamController!.add(r);
-    }));
+    ZoomMtg.inMeetingServiceListener(
+        'onMeetingStatus'.toJS,
+        ((MeetingStatus status) {
+          //print(stringify(MeetingStatus status));
+          var r = List<String>.filled(2, "");
+          // 1(connecting), 2(connected), 3(disconnected), 4(reconnecting)
+          switch (status.meetingStatus) {
+            case 1:
+              r[0] = "MEETING_STATUS_CONNECTING";
+              break;
+            case 2:
+              r[0] = "MEETING_STATUS_INMEETING";
+              break;
+            case 3:
+              r[0] = "MEETING_STATUS_DISCONNECTING";
+              break;
+            case 4:
+              r[0] = "MEETING_STATUS_INMEETING";
+              break;
+            default:
+              r[0] = status.meetingStatus.toString();
+              break;
+          }
+          streamController!.add(r);
+        }).toJS);
     return streamController!.stream;
   }
 }
