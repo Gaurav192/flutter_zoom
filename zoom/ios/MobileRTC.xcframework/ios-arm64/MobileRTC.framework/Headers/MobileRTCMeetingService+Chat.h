@@ -8,15 +8,6 @@
 
 #import <MobileRTC/MobileRTC.h>
 
-typedef enum {
-    ///Chat to all participants in the meeting. 
-    MobileRTCChatGroup_All                   = 0,
-    ///Chat to panelists in the webinar.
-    MobileRTCChatGroup_Panelists             = 1,
-    ///Chat to waiting room user
-    MobileRTCChatGroup_WaitingRoomUsers       = 2,
-}MobileRTCChatGroup;
-
 @interface MobileRTCMeetingService (Chat)
 
 /*!
@@ -73,24 +64,8 @@ typedef enum {
 - (nullable MobileRTCMeetingChat*)meetingChatByID:(nonnull NSString*)messageID;
 
 /*!
- @brief Send chat message to the specified user in the meeting.
- @param userID The ID of user who receives message in the meeting.
- @param content The message to be sent.
- @return The result of sending the message.
- */
-- (MobileRTCSendChatError)sendChatToUser:(NSUInteger)userID WithContent:(nonnull NSString*)content DEPRECATED_MSG_ATTRIBUTE("Use sendChatMsg: instead");
-
-/*!
- @brief Send message to group in the meeting.
- @param group Group type in the meeting, see MobileRTCChatGroup.
- @param content The message to be sent.
- @return The result of sending the message.
- */
-- (MobileRTCSendChatError)sendChatToGroup:(MobileRTCChatGroup)group WithContent:(nonnull NSString*)content DEPRECATED_MSG_ATTRIBUTE("Use sendChatMsg: instead");
-
-/*!
  @brief Send a chat message.
- @param MobileRTCMeetingChat The chat message.
+ @param msg The chat message.
  @return The result of sending the message.
  */
 - (MobileRTCSendChatError)sendChatMsg:(nullable MobileRTCMeetingChat *)msg;

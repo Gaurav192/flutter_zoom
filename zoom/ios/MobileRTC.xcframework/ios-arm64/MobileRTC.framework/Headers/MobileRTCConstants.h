@@ -189,6 +189,10 @@ typedef NS_ENUM(NSUInteger, MobileRTCMeetError) {
     ///To join a meeting hosted by an external Zoom account, your SDK app has to be published on Zoom Marketplace.
     ///You can refer to Section 6.1 of Zoom's API License Terms of Use.
     MobileRTCMeetError_UnableToJoinExternalMeeting      = 63,
+    //Join failed because this Meeting SDK key is blocked by the host’s account admin.
+    MobileRTCMeetError_BlockedByAccountAdmin            = 64,
+    ///Need sign in using the same account as the meeting organizer..
+    MobileRTCMeetError_NeedSignInForPrivateMeeting      = 82,
     ///Invalid arguments.
     MobileRTCMeetError_InvalidArguments                 = MobileRTCMeetError_WriteConfigFile + 100,
     ///Invalid user Type.
@@ -500,6 +504,14 @@ typedef NS_ENUM(NSUInteger, MobileRTCSendChatError) {
 };
 
 /*!
+ @brief Type of meeting encryption.
+ */
+typedef NS_ENUM(NSUInteger, MobileRTCMeetingEncryptionType) {
+    MobileRTCMeetingEncryptionType_None,
+    MobileRTCMeetingEncryptionType_Enhanced,
+    MobileRTCMeetingEncryptionType_E2EE
+};
+/*!
  @brief MobileRTCAnnotationError An enumeration of annotation-related operational error states.
  */
 typedef NS_ENUM(NSUInteger, MobileRTCAnnotationError) {
@@ -739,13 +751,6 @@ typedef NS_ENUM(NSUInteger, MobileRTCVideoResolution) {
 };
 
 /*!
- @brief MobileRTCVideoRawDataFormat An enumeration of video raw data format.
- */
-typedef NS_ENUM(NSUInteger, MobileRTCVideoRawDataFormat) {
-    MobileRTCVideoRawDataFormatI420            = 1,
-} DEPRECATED_MSG_ATTRIBUTE("Use MobileRTCFrameDataFormat instead");
-
-/*!
  @brief MobileRTCFrameDataFormat An enumeration of raw data frame format.
  */
 typedef NS_ENUM(NSUInteger, MobileRTCFrameDataFormat) {
@@ -858,10 +863,10 @@ typedef NS_ENUM(NSUInteger, FreeMeetingNeedUpgradeType) {
  */
 typedef NS_ENUM(NSUInteger, MobileRTCBOStatus) {
     MobileRTCBOStatus_Invalid = 0,
-    MobileRTCBOStatus_Edit = 1,    //<edit & assign
-    MobileRTCBOStatus_Started,    //<BO is started
-    MobileRTCBOStatus_Stopping,    //<stopping BO
-    MobileRTCBOStatus_Ended   //<BO is ended
+    MobileRTCBOStatus_Edit = 1,   ///<edit & assign
+    MobileRTCBOStatus_Started,   ///<BO is started
+    MobileRTCBOStatus_Stopping,   ///<stopping BO
+    MobileRTCBOStatus_Ended  ///<BO is ended
 };
 
 /*!
@@ -902,15 +907,15 @@ typedef NS_ENUM(NSUInteger, MobileRTCBOPreAssignBODataStatus) {
 @brief Direct sharing status.
 */
 typedef NS_ENUM(NSUInteger, MobileRTCDirectShareStatus) {
-    MobileRTCDirectShareStatus_Unknown = 0, //<Only for initialization.
-    MobileRTCDirectShareStatus_Connecting, //<Waiting for enabling the direct sharing.
-    MobileRTCDirectShareStatus_In_Direct_Share_Mode, //<In direct sharing mode.
-    MobileRTCDirectShareStatus_Ended, //<End the direct sharing.
-    MobileRTCDirectShareStatus_Need_MeetingID_Or_PairingCode, //<Re-enter the meeting ID/paring code.
-    MobileRTCDirectShareStatus_NetWork_Error, //<Network error. Please try again later.
-    MobileRTCDirectShareStatus_Other_Error, //<Other errors. Mainly occur in SIP call mode.
-    MobileRTCDirectShareStatus_WrongMeetingID_Or_SharingKey, //<Wrong meeting id or sharing key.
-    MobileRTCDirectShareStatus_Need_Input_New_ParingCode, //<require input paringCode again for users on a different network.
+    MobileRTCDirectShareStatus_Unknown = 0,///<Only for initialization.
+    MobileRTCDirectShareStatus_Connecting,///<Waiting for enabling the direct sharing.
+    MobileRTCDirectShareStatus_In_Direct_Share_Mode,///<In direct sharing mode.
+    MobileRTCDirectShareStatus_Ended,///<End the direct sharing.
+    MobileRTCDirectShareStatus_Need_MeetingID_Or_PairingCode,///<Re-enter the meeting ID/paring code.
+    MobileRTCDirectShareStatus_NetWork_Error,///<Network error. Please try again later.
+    MobileRTCDirectShareStatus_Other_Error,///<Other errors. Mainly occur in SIP call mode.
+    MobileRTCDirectShareStatus_WrongMeetingID_Or_SharingKey,///<Wrong meeting id or sharing key.
+    MobileRTCDirectShareStatus_Need_Input_New_ParingCode,///<require input paringCode again for users on a different network.
     MobileRTCDirectShareStatus_DirectShare_Prepared // Direct share prepared
 };
 
@@ -996,8 +1001,24 @@ typedef NS_ENUM(NSUInteger, MobileRTCRecordingStatus) {
     MobileRTCRecording_Pause,
     //recording connecting.
     MobileRTCRecording_Connecting,
-    //recording disk full.
+    //There is no more space to store cloud recording.
     MobileRTCRecording_DiskFull,
+    //Saving the recording failed.
+    MobileRTCRecording_Fail,
+};
+
+/*!
+ @enum RequestStartCloudRecordingStatus
+ @brief Request host to start cloud recording response status.
+*/
+typedef NS_ENUM(NSUInteger, MobileRTCRequestStartCloudRecordingStatus)
+{
+    //host grant the request.
+    MobileRTCRequestStartCloudRecording_Granted,
+    //host deny the request.
+    MobileRTCRequestStartCloudRecording_Denied,
+    //the request cloud recording timed out.
+    MobileRTCRequestStartCloudRecording_TimedOut,
 };
 
 /*!
@@ -1041,6 +1062,22 @@ typedef NS_ENUM(NSUInteger, MobileRTCShareSettingType)
     /// Anyone can share, Multi-share can exist at the same time
     MobileRTCShareSettingType_MultiShare,
     
+};
+
+typedef NS_ENUM(NSUInteger, MobileRTCCannotShareReasonType)
+{
+    MobileRTCCannotShareReasonType_None,
+    MobileRTCCannotShareReasonType_Locked,                           ///<Only host can share.
+    MobileRTCCannotShareReasonType_Disabled,                        ///<Share is disabled.
+    MobileRTCCannotShareReasonType_Other_Screen_Sharing,            ///<Another participant is sharing their screen.
+    MobileRTCCannotShareReasonType_Other_WB_Sharing,                ///<Another participant is sharing their whiteboard.
+    MobileRTCCannotShareReasonType_Need_Grab_Myself_Screen_Sharing, ///<The user is sharing their screen, and can grab.To grab,call EnableGrabShareWithoutReminder(true) before starting share.
+    MobileRTCCannotShareReasonType_Need_Grab_Other_Screen_Sharing,  ///<Another is sharing their screen, and can grab. To grab,call EnableGrabShareWithoutReminder(true) before starting share.
+    MobileRTCCannotShareReasonType_Need_Grab_Audio_Sharing,         ///<Another user is sharing pure computer audio, and can grab. To grab, call EnableGrabShareWithoutReminder(true) before starting share.
+    MobileRTCCannotShareReasonType_Need_Grap_WB_Sharing,            ///<Other or myself is sharing whiteboard, and can gGrab. To grab, call EnableGrabShareWithoutReminder(true) before starting share.
+    MobileRTCCannotShareReasonType_Reach_Maximum,                   ///<The meeting has reached the maximum allowed screen share sessions.
+    MobileRTCCannotShareReasonType_Have_Share_From_Mainsession,     ///<Other share screen in main session.
+    MobileRTCCannotShareReasonType_UnKnown,
 };
 
 /*!
@@ -1119,9 +1156,9 @@ typedef NS_ENUM(NSUInteger, MobileRTCLiveTranscriptionOperationType) {
 
 typedef NS_ENUM(NSInteger,MobileRTCSignInterpretationStatus)
 {
-    MobileRTCSignInterpretationStatus_Initial, //<The initial status
-    MobileRTCSignInterpretationStatus_Started, //<sign interpretation stared.
-    MobileRTCSignInterpretationStatus_Stopped,  //<sign interpretation stopped.
+    MobileRTCSignInterpretationStatus_Initial,///<The initial status
+    MobileRTCSignInterpretationStatus_Started,///<sign interpretation stared.
+    MobileRTCSignInterpretationStatus_Stopped, ///<sign interpretation stopped.
 };
 
 /*!
@@ -1204,11 +1241,19 @@ typedef NS_ENUM(NSUInteger, MobileRTCReminderType) {
     /// Disclaimer type  of query disclaimer
     MobileRTCReminderType_QueryDisclaimer,
     /// Disclaimer type of query enable request
-    MobileRTCReminderType_QueryEnableRequestReminder,
+    MobileRTCReminderType_QueryEnableRequestReminder DEPRECATED_ATTRIBUTE,
     /// Reminder type of enable smart summary
     MobileRTCReminderType_EnableSmartSummaryReminder,
     /// Reminder type of webinar attendee promote
     MobileRTCReminderType_WebinarAttendeePromoteReminder,
+    /// Reminder type of joining a meeting with private mode.
+    MobileRTCReminderType_JoinPrivateModeMeetingReminder,
+    /// Reminder type of AICompanionPlus disclaimer.
+    MobileRTCReminderType_AICompanionPlusDisclaimer,
+    /// Reminder type of Closed Caption disclaimer.
+    MobileRTCReminderTypeClosedCaptionDisclaimer,
+    /// Reminder type of disclaimers combination.
+    MobileRTCReminderType_MultiDisclaimer
 };
 
 typedef NS_ENUM(NSInteger, MobileRTCInviteMeetingStatus) {
@@ -1245,6 +1290,15 @@ typedef NS_ENUM(NSInteger, MobileRTCPresenceStatus) {
     MobileRTCPresenceStatus_Calendar,
     /// Presence status out of office
     MobileRTCPresenceStatus_OutOfOffice
+};
+
+/*!
+ @brief Enumerations of the type for join private mode meeting
+ */
+typedef NS_ENUM(NSInteger, MobileRTCReminderActionType) {
+    MobileRTCReminderActionType_None = 0,          ///<Need no more action.
+    MobileRTCReminderActionType_NeedSignIn,        ///<Need to sign in.
+    MobileRTCReminderActionType_NeedSwitchAccount  ///<Need to switch account.
 };
 
 typedef NS_ENUM(NSInteger, MobileRTCAutoFramingMode) {
@@ -1285,3 +1339,78 @@ typedef NS_ENUM(NSInteger, MobileRTCRichTextStyle) {
     MobileRTCRichTextStyle_InsertLink
 };
 
+typedef NS_ENUM(NSInteger, MobileRTCWhiteboardShareOption) {
+    MobileRTCWhiteboardShareOption_HostShare,         ///<Only the host can share a whiteboard.
+    MobileRTCWhiteboardShareOption_HostGrabShare,     ///<Anyone can share a whiteboard, but only one can share at a time, and only the host can take another's sharing role.
+    MobileRTCWhiteboardShareOption_AllGrabShare       ///<Anyone can share a whiteboard, but only one can share at a time, and anyone can take another's sharing role.
+};
+
+typedef NS_ENUM(NSInteger, MobileRTCWhiteboardCreateOption) {
+    MobileRTCWhiteboardCreateOption_HostOnly,         ///<Only the host can initiate a new whiteboard.
+    MobileRTCWhiteboardCreateOption_AccountUsers,     ///<Users under the same account as the meeting owner can initiate a new whiteboard.
+    MobileRTCWhiteboardCreateOption_All               ///<All participants can initiate a new whiteboard.
+};
+
+typedef NS_ENUM(NSInteger, MobileRTCWhiteboardStatus) {
+    MobileRTCWhiteboardStatus_Started, ///< User stared sharing their whiteboard.
+    MobileRTCWhiteboardStatus_Stopped, ///< User stopped sharing their whiteboard.
+};
+
+typedef NS_ENUM(NSInteger, MobileRTCPollingStatus) {
+    MobileRTCPollingStatus_Initial,     ///<The initial status
+    MobileRTCPollingStatus_Started,     ///< User started polling.
+    MobileRTCPollingStatus_ShareResult, ///< User shared polling result.
+    MobileRTCPollingStatus_Stopped,     ///< User stopped polling.
+};
+
+typedef NS_ENUM(NSInteger, MobileRTCPollingType) {
+    MobileRTCPollingType_Unknown,
+    MobileRTCPollingType_Poll,
+    MobileRTCPollingType_Quiz
+};
+
+typedef NS_ENUM(NSInteger, MobileRTCPollingQuestionType) {
+    MobileRTCPollingQuestionType_Unknown,
+    MobileRTCPollingQuestionType_Single,
+    MobileRTCPollingQuestionType_Multi,
+    MobileRTCPollingQuestionType_Matching,
+    MobileRTCPollingQuestionType_RankOrder,
+    MobileRTCPollingQuestionType_ShortAnswer,
+    MobileRTCPollingQuestionType_LongAnswer,
+    MobileRTCPollingQuestionType_FillBlank,
+    MobileRTCPollingQuestionType_RatingScale,
+    MobileRTCPollingQuestionType_Dropdown,
+};
+
+typedef NS_ENUM(NSInteger, MobileRTCPollingActionType) {
+    MobileRTCPollingActionType_Unknown,
+    MobileRTCPollingActionType_Start,
+    MobileRTCPollingActionType_Stop,
+    MobileRTCPollingActionType_ShareResult,
+    MobileRTCPollingActionType_StopShareResult,
+    MobileRTCPollingActionType_Duplicate,
+    MobileRTCPollingActionType_Delete,
+    MobileRTCPollingActionType_Submit,
+    MobileRTCPollingActionType_Error
+};
+
+typedef NS_ENUM(NSInteger, MobileRTCFocusModeShareType) {
+    MobileRTCFocusModeShareType_None,
+    MobileRTCFocusModeShareType_HostOnly,
+    MobileRTCFocusModeShareType_AllParticipants,
+};
+
+typedef NS_ENUM(NSUInteger, MobileRTCAICompanionType) {
+    /**
+     *  Meeting summary with AI Ccompanion  generates summary assets.
+     */
+    MobileRTCAICompanionType_SMART_SUMMARY,
+    /**
+     * Meeting questions with AI Ccompanion  generates transcripts assets.
+     */
+    MobileRTCAICompanionType_QUERY,
+    /**
+     * Ssmart recording with AI Ccompanion  generates recordings assets.
+     */
+    MobileRTCAICompanionType_SMART_RECORDING
+};

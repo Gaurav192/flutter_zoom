@@ -16,6 +16,13 @@
  */
 - (MobileRTCAudioType)myAudioType;
 
+
+/**
+ * @brief Determine if the meeting has third party telephony audio enabled.
+ * @return YES means enabled, otherwise it is not enabled.
+ */
+ - (BOOL)is3rdPartyTelephonyAudioOn;
+
 /*!
  @brief Set whether to connect the audio in the meeting.
  @param on YES means to connect, otherwise not.
@@ -143,5 +150,5 @@
 @brief Get the audio type supported by the current meeting. See [MobileRTCInMeetingSupportAudioType].
 @return If the function succeeds, it will return the type. The value is the 'bitwise OR' of each supported audio type.
 */
-- (int)getSupportedMeetingAudioType;
+- (NSInteger)getSupportedMeetingAudioType;
 @end

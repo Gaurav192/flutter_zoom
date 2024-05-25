@@ -7,7 +7,6 @@
 //
 
 #import <MobileRTC/MobileRTC.h>
-#import "MobileRTCConstants.h"
 
 /**
  * @brief interface to handle start smart summary request
@@ -15,14 +14,14 @@
 @interface MobileRTCSmartSummaryPrivilegeHandler : NSObject
 /**
  * @brief Agree the start smart summary request.
- * @return if the function succeeds, the return value is SDKErr_Success.
+ * @return if the function succeeds, the return value is MobileRTCSDKError_Success.
  * Otherwise the function fails. For more details, see {@link MobileRTCSDKError}.
  */
 - (MobileRTCSDKError)accept;
 
 /**
  * @brief Decline the start smart summary request.
- * @return if the function succeeds, the return value is SDKErr_Success.
+ * @return if the function succeeds, the return value is MobileRTCSDKError_Success.
  * Otherwise the function fails. For more details, see {@link MobileRTCSDKError}.
  */
 - (MobileRTCSDKError)decline;

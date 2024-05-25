@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MobileRTCConstants.h"
-#import "MobileRTCNotificationServiceHelper.h"
+#import <MobileRTC/MobileRTCConstants.h>
+#import <MobileRTC/MobileRTCNotificationServiceHelper.h>
 
 @protocol MobileRTCAuthDelegate;
 @class MobileRTCAccountInfo;
@@ -81,7 +81,7 @@
 - (nullable MobileRTCAccountInfo*)getAccountInfo;
 
 /*!
- @brief Enable or disable auto register notification service. This is enabled by default.
+ @brief Enable or disable auto register notification service. This is disabled by default.
  @param enable YES means enabled, otherwise not.
  */
 - (void)enableAutoRegisterNotificationServiceForLogin:(BOOL)enable;
@@ -127,7 +127,7 @@
 
 /*!
  @brief Specify to get the response of MobileRTC logs in.
- @param returnValue Notify the user when the login state has changed.
+ @param resultValue Notify the user when the login state has changed.
  @warning If the callback is implemented, the Zoom UI alert tips are no longer displayed.
  */
 - (void)onMobileRTCLoginResult:(MobileRTCLoginFailReason)resultValue;
@@ -137,12 +137,6 @@
  @param returnValue Notify that the user has logged-out successfully.
  */
 - (void)onMobileRTCLogoutReturn:(NSInteger)returnValue;
-
-/*!
- @brief Notification service status changed callback.
- @param status The value of transfer meeting service. For more details, see [MobileRTCNotificationServiceStatus].
- */
-- (void)onNotificationServiceStatus:(MobileRTCNotificationServiceStatus)status DEPRECATED_MSG_ATTRIBUTE("Use -onNotificationServiceStatus:error: instead");
 
 /*!
  @brief Notification service status changed callback.

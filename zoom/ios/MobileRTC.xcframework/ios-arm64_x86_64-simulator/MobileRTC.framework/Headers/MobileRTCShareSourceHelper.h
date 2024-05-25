@@ -13,13 +13,6 @@
 
 /*!
 @brief Start sharing external source.
-@param delegate The external source object pointer. Please See MobileRTCShareSourceDelegate.
-@return return If the function succeeds, the return value is MobileRTCRawData_Success.
-*/
-- (MobileRTCRawDataError)setExternalShareSource:(id<MobileRTCShareSourceDelegate> _Nullable)delegate DEPRECATED_MSG_ATTRIBUTE("Use -setExternalShareSource:andAudioSource: instead");
-
-/*!
-@brief Start sharing external source.
 @param shareDelegate The external source object pointer. Please See MobileRTCShareSourceDelegate
 @param audioDelegate .The external audio source object pointer.  Please See MobileRTCShareAudioSourceDelegate.
 @return return If the function succeeds, the return value is MobileRTCRawData_Success.
