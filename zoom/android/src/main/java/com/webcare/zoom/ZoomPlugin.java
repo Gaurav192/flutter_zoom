@@ -144,7 +144,7 @@ public class ZoomPlugin implements FlutterPlugin, MethodCallHandler,ActivityAwar
         opts.no_dial_in_via_phone = parseBoolean(options, "disableDialIn", false);
         opts.no_disconnect_audio = parseBoolean(options, "noDisconnectAudio", false);
         opts.no_audio = parseBoolean(options, "noAudio", false);
-        opts.meeting_views_options = parseInt(options, "meetingViewOptions", 0); 
+        opts.meeting_views_options = parseInt(options, "meetingViewOptions", 0);
         JoinMeetingParams params = new JoinMeetingParams();
 
         params.displayName = options.get("userId");
@@ -177,7 +177,7 @@ public class ZoomPlugin implements FlutterPlugin, MethodCallHandler,ActivityAwar
         opts.no_dial_in_via_phone = parseBoolean(options, "disableDialIn", false);
         opts.no_disconnect_audio = parseBoolean(options, "noDisconnectAudio", false);
         opts.no_audio = parseBoolean(options, "noAudio", false);
-        opts.meeting_views_options = parseInt(options, "meetingViewOptions", 0); 
+        opts.meeting_views_options = parseInt(options, "meetingViewOptions", 0);
   
         
         StartMeetingParamsWithoutLogin params = new StartMeetingParamsWithoutLogin();
