@@ -40,6 +40,10 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+
+    viewBinding {
+        enabled  true
+    }
 }
 
 dependencies {
